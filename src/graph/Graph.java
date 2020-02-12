@@ -20,8 +20,8 @@ class Node extends StackPane {
         text.setFont(Font.font(18));
         // Create a group of circle and text and set coordinates
         this.getChildren().addAll(circle, text);
-        this.setLayoutX(x);
-        this.setLayoutY(y);
+        this.setLayoutX(x - radius);
+        this.setLayoutY(y - radius);
     }
 }
 
