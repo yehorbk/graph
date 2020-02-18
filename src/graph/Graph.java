@@ -1,18 +1,15 @@
 package graph;
 
+import graph.controllers.WindowBuilder;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Graph extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        StackPane root = new StackPane();
-        Scene scene = new Scene(root, 300, 250);
-        primaryStage.setTitle("Graph");
-        primaryStage.setScene(scene);
+        WindowBuilder windowBuilder = new WindowBuilder(primaryStage, "Graph");
+        windowBuilder.init();
         primaryStage.show();
     }
 
