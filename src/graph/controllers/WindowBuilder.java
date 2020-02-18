@@ -44,7 +44,9 @@ public class WindowBuilder {
     }
     
     private void drawGraph() {
-        this.graphCanvas.drawVertex(new Vertex(10, 20, 50, 50));
+        for (Vertex vertex : CanvasBuilder.generateVertexList()) {
+            this.graphCanvas.drawVertex(vertex);
+        }
     }
     
 }

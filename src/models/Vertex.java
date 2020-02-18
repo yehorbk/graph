@@ -2,48 +2,43 @@ package models;
 
 public class Vertex {
     
+    private int id;
     private double posX;
     private double posY;
     private double width;
     private double height;
 
-    public Vertex(double posX, double posY, double width, double height) {
+    public Vertex(int id, double posX, double posY, double width, double height) {
+        this.id = id;
         this.posX = posX;
         this.posY = posY;
         this.width = width;
         this.height = height;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public double getPosX() {
         return posX;
     }
 
-    public void setPosX(double posX) {
-        this.posX = posX;
-    }
-
     public double getPosY() {
         return posY;
-    }
-
-    public void setPosY(double posY) {
-        this.posY = posY;
     }
 
     public double getWidth() {
         return width;
     }
 
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
     public double getHeight() {
         return height;
     }
 
-    public void setHeight(double height) {
-        this.height = height;
+    @Override
+    public String toString() {
+        return "Vertex{" + "id=" + id + ", posX=" + posX + ", posY=" + posY + ", width=" + width + ", height=" + height + '}';
     }
     
 }
