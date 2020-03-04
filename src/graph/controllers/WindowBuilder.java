@@ -4,18 +4,19 @@ import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
-import models.Menu;
-import models.Vertex;
+import graph.models.Menu;
+import graph.models.Vertex;
 
 public class WindowBuilder {
-
-    private Stage stage;
-    private Scene scene;
-    private HBox root;
+    
     private final int width = 1080;
     private final int height = 720;
     private final double canvasArea = 0.9;
     private final double menuArea = 0.1;
+
+    private Stage stage;
+    private Scene scene;
+    private HBox root;
     private GraphCanvas graphCanvas;
     private Menu menu;
     
@@ -45,6 +46,14 @@ public class WindowBuilder {
         for (Vertex vertex : CanvasBuilder.generateVertexList()) {
             this.graphCanvas.drawVertex(vertex);
         }
+        int[][] matrix = CanvasBuilder.generateAdjacencyMatrix(9405, 10);
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("");
+        }
+        
     }
     
 }

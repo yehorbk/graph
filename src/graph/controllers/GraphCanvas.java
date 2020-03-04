@@ -2,7 +2,7 @@ package graph.controllers;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import models.Vertex;
+import graph.models.Vertex;
 
 public class GraphCanvas extends Canvas {
     

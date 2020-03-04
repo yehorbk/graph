@@ -1,4 +1,4 @@
-package models;
+package graph.models;
 
 import javafx.scene.layout.VBox;
 

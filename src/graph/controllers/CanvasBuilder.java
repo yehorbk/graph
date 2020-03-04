@@ -2,11 +2,12 @@ package graph.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import models.Vertex;
+import graph.models.Vertex;
+import java.util.Random;
 
 public class CanvasBuilder {
     
-    public static List<Vertex> generateVertexList () {
+    public static List<Vertex> generateVertexList() {
         List<Vertex> vertexList = new ArrayList<>();
         final int beginX = 500;
         final int beginY = -50;
@@ -32,6 +33,21 @@ public class CanvasBuilder {
             }
         }
         return vertexList;
-    } 
+    }
+    
+    public static int[][] generateAdjacencyMatrix(int seed, int n) {
+        int offset1 = seed % 10;
+        int offset2 = (seed / 10) % 10;
+        Random rand = new Random(seed);
+        int[][] matrix = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                double T = rand.nextDouble() + rand.nextDouble();
+                double value = Math.floor((1.0 - offset2 * 0.02 - offset1 * 0.005 - 0.25) * T);
+                matrix[i][j] = (int)value;
+            }
+        }
+        return matrix;
+    }
     
 }

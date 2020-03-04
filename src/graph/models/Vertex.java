@@ -1,4 +1,4 @@
-package models;
+package graph.models;
 
 public class Vertex {
     
@@ -39,6 +39,6 @@ public class Vertex {
     @Override
     public String toString() {
         return "Vertex{" + "id=" + id + ", posX=" + posX + ", posY=" + posY + ", width=" + width + ", height=" + height + '}';
-    }
+    }    
     
 }
