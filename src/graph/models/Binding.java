@@ -6,7 +6,6 @@ public class Binding {
     public double startY;
     public double endX;
     public double endY;
-    
     public boolean isSelfConnected = false;
 
     public void bindSimpleVertex(Vertex v1, Vertex v2) {
@@ -26,20 +25,20 @@ public class Binding {
         }
         
         if (v1.getPosX() < v2.getPosX() && v1.getPosY() > v2.getPosY()) {
-            kStartX = v1.getWidth();
+            kStartX = 50;
             kStartY = 50 / 2;
             kEndY = 50 / 2;
         }
         
         if (v1.getPosX() < v2.getPosX() && v1.getPosY() < v2.getPosY()) {
-            kStartX = v1.getWidth();
+            kStartX = 50;
             kStartY = 50 / 2;
             kEndY = 50 / 2;
         }
         
         if (v1.getPosX() > v2.getPosX() && v1.getPosY() > v2.getPosY()) {
             kStartY = 50 / 2;
-            kEndX = v1.getWidth();
+            kEndX = 50;
             kEndY = 50 / 2;
         }
         
@@ -79,10 +78,6 @@ public class Binding {
         this.startY = v1.getPosY() + kStartY;
         this.endX = v2.getPosX() + kEndX;
         this.endY = v2.getPosY() + kEndY;
-    }
-    
-    public void bindSelfVertex(Vertex v1) {
-        // TODO
     }
     
 }

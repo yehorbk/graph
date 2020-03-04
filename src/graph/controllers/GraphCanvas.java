@@ -4,6 +4,7 @@ import graph.models.Binding;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import graph.models.Vertex;
+import javafx.scene.shape.ArcType;
 
 public class GraphCanvas extends Canvas {
     
@@ -31,8 +32,13 @@ public class GraphCanvas extends Canvas {
     }
     
     public void bindVertex(Binding binding) {
-        this.graphicsContext.strokeLine(binding.startX, binding.startY, 
+        if (!binding.isSelfConnected) {
+            this.graphicsContext.strokeLine(binding.startX, binding.startY, 
                 binding.endX, binding.endY);
+        } else {
+            this.graphicsContext.strokeArc(binding.startX - 10, 
+                    binding.startY - 10, 40, 40, 30, 210, ArcType.OPEN);
+        }
     }
     
     public void directBindVertex(Binding binding) {
