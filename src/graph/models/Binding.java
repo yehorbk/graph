@@ -1,12 +1,24 @@
 package graph.models;
 
+import java.util.List;
+import graph.models.Vertex;
+
+
 public class Binding {
     
     public double startX;
     public double startY;
     public double endX;
     public double endY;
+    
     public boolean isSelfConnected = false;
+    public boolean isCrosses = false;
+    
+    private List<Vertex> vertexList;
+
+    public Binding(List<Vertex> vertexList) {
+        this.vertexList = vertexList;
+    }
 
     public void bindSimpleVertex(Vertex v1, Vertex v2) {
         double kStartX = 0;
@@ -78,6 +90,30 @@ public class Binding {
         this.startY = v1.getPosY() + kStartY;
         this.endX = v2.getPosX() + kEndX;
         this.endY = v2.getPosY() + kEndY;
+        this.isCrosses = this.checkIsCross(v1, v2);
+    }
+    
+    private boolean checkIsCross(Vertex v1, Vertex v2) {
+        boolean result = false;
+        // double medianX = (v1.getPosX() + v2.getPosX()) / 2;
+        // double medianY = (v1.getPosY() + v2.getPosY()) / 2;
+        for (Vertex vertex : this.vertexList) {
+            if (vertex.getPosY() == v1.getPosY() && vertex.getPosY() == v2.getPosY()) {
+                result = true;
+                break;
+            }
+        }
+        return result; // TODO: fix bug, for testing purposes return "false"
     }
     
 }
+
+
+
+
+
+
+
+
+
+

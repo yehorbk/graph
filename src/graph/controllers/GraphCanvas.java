@@ -33,8 +33,19 @@ public class GraphCanvas extends Canvas {
     
     public void bindVertex(Binding binding) {
         if (!binding.isSelfConnected) {
-            this.graphicsContext.strokeLine(binding.startX, binding.startY, 
+            if (!binding.isCrosses) {
+                this.graphicsContext.strokeLine(binding.startX, binding.startY, 
                 binding.endX, binding.endY);
+            } else {
+                double middleX = (binding.startX + binding.endX) / 2;
+                double middleY = binding.endY + 40;
+                this.graphicsContext.strokeLine(binding.startX, binding.startY, 
+                middleX, middleY);
+                binding.startX = middleX;
+                binding.startY = middleY;
+                this.graphicsContext.strokeLine(binding.startX, binding.startY, 
+                binding.endX, binding.endY);
+            }
         } else {
             this.graphicsContext.strokeArc(binding.startX - 10, 
                     binding.startY - 10, 40, 40, 30, 210, ArcType.OPEN);

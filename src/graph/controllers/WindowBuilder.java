@@ -74,12 +74,15 @@ public class WindowBuilder {
         }
         for (int i = 0; i < this.adjacencyMatrix.length; i++) {
             for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
+                // System.out.print(adjacencyMatrix[i][j] + " ");
                 if (this.adjacencyMatrix[i][j] == 1) {
-                    Binding binding = new Binding();
+                    Binding binding = new Binding(this.vertexList);
                     binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j));
+                    // System.out.println(i + " - " + j + ": " + binding.isCrosses);
                     this.graphCanvas.bindVertex(binding);
                 }
             }
+            // System.out.println("");
         }
     }
     
@@ -91,7 +94,7 @@ public class WindowBuilder {
         for (int i = 0; i < this.adjacencyMatrix.length; i++) {
             for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
                 if (this.adjacencyMatrix[i][j] == 1) {
-                    Binding binding = new Binding();
+                    Binding binding = new Binding(this.vertexList);
                     binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j));
                     this.graphCanvas.directBindVertex(binding);
                 }
