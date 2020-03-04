@@ -50,12 +50,14 @@ public class SimpleBinding extends Binding {
             kEndX = 50 / 2;
         }
         
-        if (v1.getPosX() > v2.getPosY() && v1.getPosY() == v2.getPosY()) {
-            kStartY = 50 / 2;            
+        if (v1.getPosX() > v2.getPosX() && v1.getPosY() == v2.getPosY()) {
+            kStartY = 50 / 2;     
+            kEndX = 50;
             kEndY = 50 / 2;
         }
         
-        if (v1.getPosX() < v2.getPosY() && v1.getPosY() == v2.getPosY()) {
+        if (v1.getPosX() < v2.getPosX() && v1.getPosY() == v2.getPosY()) {
+            kStartX = 50;
             kStartY = 50 / 2;
             kEndY = 50 / 2;
         }
