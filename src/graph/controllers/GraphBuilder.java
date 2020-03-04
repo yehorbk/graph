@@ -5,7 +5,7 @@ import java.util.List;
 import graph.models.Vertex;
 import java.util.Random;
 
-public class CanvasBuilder {
+public class GraphBuilder {
     
     public static List<Vertex> generateVertexList() {
         List<Vertex> vertexList = new ArrayList<>();
