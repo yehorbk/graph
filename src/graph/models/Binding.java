@@ -103,7 +103,7 @@ public class Binding {
                 break;
             }
         }
-        return result; // TODO: fix bug, for testing purposes return "false"
+        return result;
     }
     
 }
