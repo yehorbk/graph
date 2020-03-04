@@ -64,11 +64,11 @@ public class WindowBuilder {
     
     private void drawSimpleGraph() {
         this.graphCanvas.clearGraph();
-        List<Vertex> vertexList = CanvasBuilder.generateVertexList();
+        List<Vertex> vertexList = GraphBuilder.generateVertexList();
         for (Vertex vertex : vertexList) {
             this.graphCanvas.drawVertex(vertex);
         }
-        int[][] matrix = CanvasBuilder.generateAdjacencyMatrix(9405, 10);
+        int[][] matrix = GraphBuilder.generateAdjacencyMatrix(9405, 10);
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 if (matrix[i][j] == 1) {
@@ -82,19 +82,21 @@ public class WindowBuilder {
     
     private void drawDirectedGraph() {
         this.graphCanvas.clearGraph();
-        List<Vertex> vertexList = CanvasBuilder.generateVertexList();
+        List<Vertex> vertexList = GraphBuilder.generateVertexList();
         for (Vertex vertex : vertexList) {
             this.graphCanvas.drawVertex(vertex);
         }
-        int[][] matrix = CanvasBuilder.generateAdjacencyMatrix(9405, 10);
+        int[][] matrix = GraphBuilder.generateAdjacencyMatrix(9405, 10);
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print(matrix[i][j] + " ");
                 if (matrix[i][j] == 1) {
                     SimpleBinding simpleBinding = new SimpleBinding();
                     simpleBinding.bindVertex(vertexList.get(i), vertexList.get(j));
                     this.graphCanvas.directBindVertex(simpleBinding);
                 }
             }
+            System.out.println("");
         }
     }
     
