@@ -4,7 +4,6 @@ import graph.models.Binding;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import graph.models.Vertex;
-import javafx.scene.transform.Affine;
 
 public class GraphCanvas extends Canvas {
     
@@ -32,30 +31,36 @@ public class GraphCanvas extends Canvas {
     }
     
     public void bindVertex(Binding binding) {
-        this.graphicsContext.strokeLine(binding.startX, binding.startY, binding.endX, binding.endY);
+        this.graphicsContext.strokeLine(binding.startX, binding.startY, 
+                binding.endX, binding.endY);
     }
     
     public void directBindVertex(Binding binding) {
-        this.graphicsContext.strokeLine(binding.startX, binding.startY, binding.endX, binding.endY);
-        
-        //double angle = Math.atan2(binding.endX - binding.startX, binding.endY - binding.startY);
-        /*double angle = (1) / Math.PI;
-        double dx1 = ((binding.endX - 10) * Math.cos(angle)) - ((binding.endY - 5) * Math.sin(angle));
-        double dx2 = ((binding.endX - 10) * Math.cos(angle)) - ((binding.endY + 5) * Math.sin(angle));
-        double dy1 = ((binding.endX - 10) * Math.cos(angle)) + ((binding.endY - 5) * Math.sin(angle));
-        double dy2 = ((binding.endX - 10) * Math.cos(angle)) + ((binding.endY + 5) * Math.sin(angle));*/
-        
-        double dx1 = binding.endX - 10;
-        double dx2 = binding.endX - 10;
-        double dy1 = binding.endY - 5;
-        double dy2 = binding.endY + 5;
-        
-        //this.graphicsContext.rotate(angle);
-        //System.out.println(angle);
-        
+        this.bindVertex(binding);
+        this.drawTriangleArrow(binding);
+    }
+    
+    private void drawTriangleArrow(Binding binding) {
+        double[] angle = this.getAngle(binding);
+        double sin = angle[0];
+        double cos = angle[1];
+        double pointSize = 5;
+        double dx1 = binding.endX - 2 * pointSize * cos - pointSize * sin;
+        double dy1 = binding.endY - 2 * pointSize * sin + pointSize * cos;
+        double dx2 = binding.endX - 2 * pointSize * cos + pointSize * sin;
+        double dy2 = binding.endY - 2 * pointSize * sin - pointSize * cos;
         double[] xPoints = { binding.endX, dx1, dx2 };
         double[] yPoints = { binding.endY, dy1, dy2 };
         this.graphicsContext.fillPolygon(xPoints, yPoints, 3);
+    }
+    
+    private double[] getAngle(Binding binding) {
+        double[] result = new double[2];
+        double path = Math.sqrt(Math.pow((binding.endX - binding.startX), 2) 
+                + Math.pow((binding.endY - binding.startY), 2));
+        result[0] = (binding.endY - binding.startY) / path;
+        result[1] = (binding.endX - binding.startX) / path;
+        return result;
     }
     
 }

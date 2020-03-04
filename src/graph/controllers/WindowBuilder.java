@@ -5,7 +5,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import graph.models.Menu;
-import graph.models.SimpleBinding;
+import graph.models.Binding;
 import graph.models.Vertex;
 import java.util.List;
 import javafx.event.Event;
@@ -24,6 +24,9 @@ public class WindowBuilder {
     private GraphCanvas graphCanvas;
     private Menu menu;
     
+    private List<Vertex> vertexList;
+    private int[][] adjacencyMatrix;
+    
     public WindowBuilder(Stage stage, String title) {
         this.stage = stage;
         this.stage.setTitle(title);
@@ -36,6 +39,8 @@ public class WindowBuilder {
         this.graphCanvas = new GraphCanvas(this.width * this.canvasArea, this.height);
         this.menu = new Menu();
         setMenuEvents();
+        this.vertexList = GraphBuilder.generateVertexList();
+        this.adjacencyMatrix = GraphBuilder.generateAdjacencyMatrix(9405, 10); // TODO: put student data to another place
         drawScene();
         drawSimpleGraph();
     }
@@ -64,17 +69,15 @@ public class WindowBuilder {
     
     private void drawSimpleGraph() {
         this.graphCanvas.clearGraph();
-        List<Vertex> vertexList = GraphBuilder.generateVertexList();
-        for (Vertex vertex : vertexList) {
+        for (Vertex vertex : this.vertexList) {
             this.graphCanvas.drawVertex(vertex);
         }
-        int[][] matrix = GraphBuilder.generateAdjacencyMatrix(9405, 10);
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                if (matrix[i][j] == 1) {
-                    SimpleBinding simpleBinding = new SimpleBinding();
-                    simpleBinding.bindVertex(vertexList.get(i), vertexList.get(j));
-                    this.graphCanvas.bindVertex(simpleBinding);
+        for (int i = 0; i < this.adjacencyMatrix.length; i++) {
+            for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
+                if (this.adjacencyMatrix[i][j] == 1) {
+                    Binding binding = new Binding();
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j));
+                    this.graphCanvas.bindVertex(binding);
                 }
             }
         }
@@ -82,21 +85,17 @@ public class WindowBuilder {
     
     private void drawDirectedGraph() {
         this.graphCanvas.clearGraph();
-        List<Vertex> vertexList = GraphBuilder.generateVertexList();
-        for (Vertex vertex : vertexList) {
+        for (Vertex vertex : this.vertexList) {
             this.graphCanvas.drawVertex(vertex);
         }
-        int[][] matrix = GraphBuilder.generateAdjacencyMatrix(9405, 10);
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                System.out.print(matrix[i][j] + " ");
-                if (matrix[i][j] == 1) {
-                    SimpleBinding simpleBinding = new SimpleBinding();
-                    simpleBinding.bindVertex(vertexList.get(i), vertexList.get(j));
-                    this.graphCanvas.directBindVertex(simpleBinding);
+        for (int i = 0; i < this.adjacencyMatrix.length; i++) {
+            for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
+                if (this.adjacencyMatrix[i][j] == 1) {
+                    Binding binding = new Binding();
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j));
+                    this.graphCanvas.directBindVertex(binding);
                 }
             }
-            System.out.println("");
         }
     }
     
