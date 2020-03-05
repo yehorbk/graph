@@ -6,25 +6,27 @@ import javafx.scene.layout.VBox;
 
 public class Menu extends VBox {
     
-    private Button showSimpleGraph = new Button("Simple Graph");
-    private Button showDirectedGraph = new Button("Directed Graph");
+    private Button showSimpleGraphButton = new Button("Simple Graph");
+    private Button showDirectedGraphButton = new Button("Directed Graph");
 
     public Menu() {
         this.applyStyles();
-        this.getChildren().add(this.showSimpleGraph);
-        this.getChildren().add(this.showDirectedGraph);
+        this.getChildren().add(this.showSimpleGraphButton);
+        this.getChildren().add(this.showDirectedGraphButton);
     }
     
     private void applyStyles() {
         this.setStyle("-fx-background-color: rgba(217, 217, 217, 0.5);");
+        this.showSimpleGraphButton.setMaxWidth(Double.MAX_VALUE);
+        this.showDirectedGraphButton.setMaxWidth(Double.MAX_VALUE);
     }
     
-    public void bindShowSimpleGraphEvent(EventHandler eventHandler) {
-        this.showSimpleGraph.setOnMouseClicked(eventHandler);
+    public void bindShowSimpleGraphButtonEvent(EventHandler eventHandler) {
+        this.showSimpleGraphButton.setOnMouseClicked(eventHandler);
     }
     
-    public void bindShowDirectedGraphEvent(EventHandler eventHandler) {
-        this.showDirectedGraph.setOnMouseClicked(eventHandler);
+    public void bindShowDirectedGraphButtonEvent(EventHandler eventHandler) {
+        this.showDirectedGraphButton.setOnMouseClicked(eventHandler);
     }
     
 }

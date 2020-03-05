@@ -46,13 +46,13 @@ public class WindowBuilder {
     }
     
     public void setMenuEvents() {
-        this.menu.bindShowSimpleGraphEvent(new EventHandler() {
+        this.menu.bindShowSimpleGraphButtonEvent(new EventHandler() {
             @Override
             public void handle(Event event) {
                 drawSimpleBindings();
             }
         });
-        this.menu.bindShowDirectedGraphEvent(new EventHandler() {
+        this.menu.bindShowDirectedGraphButtonEvent(new EventHandler() {
             @Override
             public void handle(Event event) {
                 drawDirectedBindings();
