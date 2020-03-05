@@ -3,7 +3,6 @@ package graph.models;
 import java.util.List;
 import graph.models.Vertex;
 
-
 public class Binding {
     
     public double startX;
@@ -107,13 +106,3 @@ public class Binding {
     }
     
 }
-
-
-
-
-
-
-
-
-
-

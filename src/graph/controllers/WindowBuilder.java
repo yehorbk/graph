@@ -32,30 +32,30 @@ public class WindowBuilder {
         this.stage.setTitle(title);
     }
     
-    public void init() {
+    public void init(int identifier, int count) {
         this.root = new HBox();
         this.scene = new Scene(this.root, this.width, this.height);
         this.stage.setScene(this.scene);
         this.graphCanvas = new GraphCanvas(this.width * this.canvasArea, this.height);
         this.menu = new Menu();
         setMenuEvents();
-        this.vertexList = GraphBuilder.generateVertexList();
-        this.adjacencyMatrix = GraphBuilder.generateAdjacencyMatrix(9405, 10); // TODO: put student data to another place
+        this.vertexList = GraphBuilder.generateVertexList(count);
+        this.adjacencyMatrix = GraphBuilder.generateAdjacencyMatrix(identifier, count);
         drawScene();
-        drawSimpleGraph();
+        drawSimpleBindings();
     }
     
     public void setMenuEvents() {
         this.menu.bindShowSimpleGraphEvent(new EventHandler() {
             @Override
             public void handle(Event event) {
-                drawSimpleGraph();
+                drawSimpleBindings();
             }
         });
         this.menu.bindShowDirectedGraphEvent(new EventHandler() {
             @Override
             public void handle(Event event) {
-                drawDirectedGraph();
+                drawDirectedBindings();
             }
         });
     }
@@ -67,30 +67,28 @@ public class WindowBuilder {
         this.root.getChildren().addAll(this.graphCanvas, this.menu);
     }
     
-    private void drawSimpleGraph() {
+    private void drawGraph() {
         this.graphCanvas.clearGraph();
         for (Vertex vertex : this.vertexList) {
             this.graphCanvas.drawVertex(vertex);
-        }
-        for (int i = 0; i < this.adjacencyMatrix.length; i++) {
-            for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
-                // System.out.print(adjacencyMatrix[i][j] + " ");
-                if (this.adjacencyMatrix[i][j] == 1) {
-                    Binding binding = new Binding(this.vertexList);
-                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j));
-                    // System.out.println(i + " - " + j + ": " + binding.isCrosses);
-                    this.graphCanvas.bindVertex(binding);
-                }
-            }
-            // System.out.println("");
         }
     }
     
-    private void drawDirectedGraph() {
-        this.graphCanvas.clearGraph();
-        for (Vertex vertex : this.vertexList) {
-            this.graphCanvas.drawVertex(vertex);
+    private void drawSimpleBindings() {
+        this.drawGraph();
+        for (int i = 0; i < this.adjacencyMatrix.length; i++) {
+            for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
+                if (this.adjacencyMatrix[i][j] == 1) {
+                    Binding binding = new Binding(this.vertexList);
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j));
+                    this.graphCanvas.simpleBindVertex(binding);
+                }
+            }
         }
+    }
+    
+    private void drawDirectedBindings() {
+        this.drawGraph();
         for (int i = 0; i < this.adjacencyMatrix.length; i++) {
             for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
                 if (this.adjacencyMatrix[i][j] == 1) {
@@ -99,6 +97,15 @@ public class WindowBuilder {
                     this.graphCanvas.directBindVertex(binding);
                 }
             }
+        }
+    }
+    
+    private void printAdjacencyMatrix() {
+        for (int i = 0; i < this.adjacencyMatrix.length; i++) {
+            for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
+                System.out.print(this.adjacencyMatrix[i][j] + " ");
+            }
+            System.out.println("");
         }
     }
     

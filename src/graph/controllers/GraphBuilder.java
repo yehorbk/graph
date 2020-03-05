@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class GraphBuilder {
     
-    public static List<Vertex> generateVertexList() {
+    public static List<Vertex> generateVertexList(int n) {
         List<Vertex> vertexList = new ArrayList<>();
         final int beginX = 500;
         final int beginY = -50;
@@ -15,7 +15,7 @@ public class GraphBuilder {
         int y = beginY;
         int kx = -1;
         int ky = 1;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < n; i++) {
             x += 150 * kx;
             y += 200 * ky;
             vertexList.add(new Vertex(i + 1, x, y, 50, 50));

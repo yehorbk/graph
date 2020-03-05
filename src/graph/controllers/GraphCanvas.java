@@ -31,20 +31,13 @@ public class GraphCanvas extends Canvas {
                 vertex.getPosY()  + vertex.getHeight() / 1.70);
     }
     
-    public void bindVertex(Binding binding) {
+    public void simpleBindVertex(Binding binding) {
         if (!binding.isSelfConnected) {
             if (!binding.isCrosses) {
                 this.graphicsContext.strokeLine(binding.startX, binding.startY, 
                 binding.endX, binding.endY);
             } else {
-                double middleX = (binding.startX + binding.endX) / 2;
-                double middleY = binding.endY + 40;
-                this.graphicsContext.strokeLine(binding.startX, binding.startY, 
-                middleX, middleY);
-                binding.startX = middleX;
-                binding.startY = middleY;
-                this.graphicsContext.strokeLine(binding.startX, binding.startY, 
-                binding.endX, binding.endY);
+                this.makeBypassBinding(binding);
             }
         } else {
             this.graphicsContext.strokeArc(binding.startX - 10, 
@@ -53,8 +46,19 @@ public class GraphCanvas extends Canvas {
     }
     
     public void directBindVertex(Binding binding) {
-        this.bindVertex(binding);
+        this.simpleBindVertex(binding);
         this.drawTriangleArrow(binding);
+    }
+    
+    private void makeBypassBinding(Binding binding) {
+        double middleX = (binding.startX + binding.endX) / 2;
+        double middleY = binding.endY + 40;
+        this.graphicsContext.strokeLine(binding.startX, binding.startY,
+                middleX, middleY);
+        binding.startX = middleX;
+        binding.startY = middleY;
+        this.graphicsContext.strokeLine(binding.startX, binding.startY,
+                binding.endX, binding.endY);
     }
     
     private void drawTriangleArrow(Binding binding) {
