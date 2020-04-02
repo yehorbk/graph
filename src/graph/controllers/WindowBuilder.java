@@ -51,6 +51,11 @@ public class WindowBuilder {
         GraphBuilder.printVertexesHalfDegrees(adjacencyMatrix);
         GraphBuilder.printAllHanging(simpleMatrix);
         GraphBuilder.printAllIsolated(simpleMatrix);
+        int[][] degree2 = GraphBuilder.powMatrix(simpleMatrix);
+        int[][] degree3 = GraphBuilder.powMatrix(degree2);
+        int[][] reachabilityMatrix = GraphBuilder.findReachabilityMatrix(simpleMatrix, 10);
+        int[][] connectednessMatrix = GraphBuilder.findConnectednessMatrix(reachabilityMatrix);
+        printMatrix(connectednessMatrix);
     }
     
     public void setMenuEvents() {

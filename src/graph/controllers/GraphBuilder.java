@@ -3,6 +3,7 @@ package graph.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import graph.models.Vertex;
+import java.util.Arrays;
 import java.util.Random;
 
 public class GraphBuilder {
@@ -44,7 +45,8 @@ public class GraphBuilder {
             for (int j = 0; j < n; j++) {
                 double T = rand.nextDouble() + rand.nextDouble();
                 // double value = Math.floor((1.0 - offset2 * 0.02 - offset1 * 0.005 - 0.25) * T);
-                double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.001 - 0.3) * T);
+                // double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.001 - 0.3) * T);
+                double value = Math.floor((1.0 - offset2 * 0.005 - offset1 * 0.005 - 0.27) * T);
                 matrix[i][j] = (int)value;
             }
         }
@@ -54,7 +56,7 @@ public class GraphBuilder {
     /*
     
         T = rand(n,n) + rand(n,n);
-        A = floor((1.0 – п3*0.01 – п4*0.01 - 0.3)*T)
+        A = floor((1.0 - п3*0.005 - п4*0.005 - 0.27)*T)
     
     */
     
@@ -128,6 +130,63 @@ public class GraphBuilder {
                 System.out.println(i + 1 + " is isolated" );
             }
         }
+    }
+    
+    public static int[][] multiplyMatrix(int[][] matrix1, int[][] matrix2) {
+        int length = matrix1.length;
+        int[][] result = new int[length][length];
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                for (int k = 0; k < length; k++) {
+                    result[i][j] += matrix1[i][k] * matrix2[k][j]; 
+                }
+            }
+        }
+        return result;
+    }
+    
+    public static int[][] powMatrix(int[][] matrix) {
+        return multiplyMatrix(matrix, matrix);
+    }
+    
+    public static int[][] findReachabilityMatrix(int[][] matrix, int n) {
+        int length = matrix.length;
+        int[][] result = new int[length][length];
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                result[i][j] = 1;
+            }
+        }
+        int[][] temp = matrix;
+        for (int k = 0; k < 5; k++) {
+            for (int i = 0; i < length; i++) {
+                for (int j = 0; j < length; j++) {
+                    result[i][j] += temp[i][j];
+                }
+            }
+            temp = powMatrix(temp);
+        }
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (result[i][j] > 0) {
+                    result[i][j] = 1;
+                }
+            }
+        }
+        return result;
+    }
+    
+    public static int[][] findConnectednessMatrix(int[][] reachabilityMatrix) {
+        int length = reachabilityMatrix.length;
+        int[][] transposedMatrix = Arrays.copyOf(reachabilityMatrix, length);
+        for (int i = 0; i < length; i++) {
+            for (int j = i+1; j < length; j++) {
+                int temp = transposedMatrix[i][j];
+                transposedMatrix[i][j] = transposedMatrix[j][i];
+                transposedMatrix[j][i] = temp;
+            }
+        }
+        return multiplyMatrix(reachabilityMatrix, transposedMatrix);
     }
     
 }
