@@ -47,6 +47,7 @@ public class WindowBuilder {
         drawSimpleBindings();
         
         this.printMatrix(this.simpleMatrix);
+        GraphBuilder.printAllIsolated(simpleMatrix);
     }
     
     public void setMenuEvents() {

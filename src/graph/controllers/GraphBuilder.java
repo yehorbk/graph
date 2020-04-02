@@ -43,12 +43,20 @@ public class GraphBuilder {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 double T = rand.nextDouble() + rand.nextDouble();
-                double value = Math.floor((1.0 - offset2 * 0.02 - offset1 * 0.005 - 0.25) * T);
+                // double value = Math.floor((1.0 - offset2 * 0.02 - offset1 * 0.005 - 0.25) * T);
+                double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.001 - 0.3) * T);
                 matrix[i][j] = (int)value;
             }
         }
         return matrix;
     }
+    
+    /*
+    
+        T = rand(n,n) + rand(n,n);
+        A = floor((1.0 – п3*0.01 – п4*0.01 - 0.3)*T)
+    
+    */
     
     public static int[][] generateSimpleMatrix(int[][] adjacencyMatrix) {
         int length = adjacencyMatrix.length;
@@ -61,6 +69,22 @@ public class GraphBuilder {
             }
         }
         return result;
+    }
+    
+    
+    public static void printAllIsolated(int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            boolean isIsolated = true;
+            for (int j = 0; j < matrix.length; j++) {
+                if (matrix[i][j] == 1 || matrix [j][i] == 1) {
+                    isIsolated = false;
+                    break;
+                }
+            }
+            if (isIsolated) {
+                System.out.println(i + 1 + " is isolated" );
+            }
+        }
     }
     
 }
