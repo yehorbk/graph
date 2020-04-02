@@ -66,8 +66,10 @@ public class GraphBuilder {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 int item = adjacencyMatrix[i][j];
-                result[i][j] = item;
-                result[j][i] = item;
+                if (item == 1) {
+                    result[i][j] = item;
+                    result[j][i] = item;
+                }
             }
         }
         return result;
@@ -158,7 +160,7 @@ public class GraphBuilder {
             }
         }
         int[][] temp = matrix;
-        for (int k = 0; k < 5; k++) {
+        for (int k = 0; k < 3; k++) {
             for (int i = 0; i < length; i++) {
                 for (int j = 0; j < length; j++) {
                     result[i][j] += temp[i][j];

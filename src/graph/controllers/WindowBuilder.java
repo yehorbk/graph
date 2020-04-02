@@ -46,15 +46,21 @@ public class WindowBuilder {
         drawScene();
         drawSimpleBindings();
         
-        this.printMatrix(this.simpleMatrix);
-        // GraphBuilder.printVertexesDegrees(simpleMatrix);
+        this.printMatrix(this.adjacencyMatrix);
+        this.printMatrix(simpleMatrix);
+        GraphBuilder.printVertexesDegrees(simpleMatrix);
         GraphBuilder.printVertexesHalfDegrees(adjacencyMatrix);
         GraphBuilder.printAllHanging(simpleMatrix);
         GraphBuilder.printAllIsolated(simpleMatrix);
+        System.out.println("");
         int[][] degree2 = GraphBuilder.powMatrix(simpleMatrix);
-        int[][] degree3 = GraphBuilder.powMatrix(degree2);
+        this.printMatrix(degree2);
+        int[][] degree3 = GraphBuilder.multiplyMatrix(degree2, simpleMatrix);
+        this.printMatrix(degree3);
         int[][] reachabilityMatrix = GraphBuilder.findReachabilityMatrix(simpleMatrix, 10);
+        this.printMatrix(reachabilityMatrix);
         int[][] connectednessMatrix = GraphBuilder.findConnectednessMatrix(reachabilityMatrix);
+        this.printMatrix(connectednessMatrix);
         int countOfConnectedComponents = GraphBuilder.findConnectedComponets(connectednessMatrix);
         System.out.println(countOfConnectedComponents); // drawCondensationBindings
     }
@@ -140,6 +146,7 @@ public class WindowBuilder {
             }
             System.out.println("");
         }
+        System.out.println("");
     }
     
 }
