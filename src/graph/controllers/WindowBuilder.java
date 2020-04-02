@@ -26,6 +26,7 @@ public class WindowBuilder {
     
     private List<Vertex> vertexList;
     private int[][] adjacencyMatrix;
+    private int[][] simpleMatrix;
     
     public WindowBuilder(Stage stage, String title) {
         this.stage = stage;
@@ -41,8 +42,11 @@ public class WindowBuilder {
         setMenuEvents();
         this.vertexList = GraphBuilder.generateVertexList(count);
         this.adjacencyMatrix = GraphBuilder.generateAdjacencyMatrix(identifier, count);
+        this.simpleMatrix = GraphBuilder.generateSimpleMatrix(this.adjacencyMatrix);
         drawScene();
         drawSimpleBindings();
+        
+        this.printMatrix(this.simpleMatrix);
     }
     
     public void setMenuEvents() {
@@ -100,10 +104,10 @@ public class WindowBuilder {
         }
     }
     
-    private void printAdjacencyMatrix() {
-        for (int i = 0; i < this.adjacencyMatrix.length; i++) {
-            for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
-                System.out.print(this.adjacencyMatrix[i][j] + " ");
+    private void printMatrix(int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print(matrix[i][j] + " ");
             }
             System.out.println("");
         }

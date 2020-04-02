@@ -50,4 +50,17 @@ public class GraphBuilder {
         return matrix;
     }
     
+    public static int[][] generateSimpleMatrix(int[][] adjacencyMatrix) {
+        int length = adjacencyMatrix.length;
+        int[][] result = new int[length][length];
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                int item = adjacencyMatrix[i][j];
+                result[i][j] = item;
+                result[j][i] = item;
+            }
+        }
+        return result;
+    }
+    
 }
