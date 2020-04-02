@@ -189,4 +189,21 @@ public class GraphBuilder {
         return multiplyMatrix(reachabilityMatrix, transposedMatrix);
     }
     
+    public static int findConnectedComponets(int[][] connectednessMatrix) {
+        int count = 0;
+        int length = connectednessMatrix.length;
+        int[][] squareConnectednessMatrix = powMatrix(connectednessMatrix);
+        List<Integer> numbers = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                int item = squareConnectednessMatrix[i][j];
+                if (!numbers.contains(item)) {
+                    count++;
+                    numbers.add(item);
+                }
+            }
+        }
+        return count;
+    }
+    
 }

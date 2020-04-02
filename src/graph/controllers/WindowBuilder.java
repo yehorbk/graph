@@ -55,7 +55,8 @@ public class WindowBuilder {
         int[][] degree3 = GraphBuilder.powMatrix(degree2);
         int[][] reachabilityMatrix = GraphBuilder.findReachabilityMatrix(simpleMatrix, 10);
         int[][] connectednessMatrix = GraphBuilder.findConnectednessMatrix(reachabilityMatrix);
-        printMatrix(connectednessMatrix);
+        int countOfConnectedComponents = GraphBuilder.findConnectedComponets(connectednessMatrix);
+        System.out.println(countOfConnectedComponents); // drawCondensationBindings
     }
     
     public void setMenuEvents() {
@@ -69,6 +70,12 @@ public class WindowBuilder {
             @Override
             public void handle(Event event) {
                 drawDirectedBindings();
+            }
+        });
+        this.menu.bindShowCondensationGraphButtonEvent(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                drawCondensationBindings(1);
             }
         });
     }
@@ -110,6 +117,19 @@ public class WindowBuilder {
                     this.graphCanvas.directBindVertex(binding);
                 }
             }
+        }
+    }
+    
+    private void drawCondensationBindings(int n) {
+        List<Vertex> condensationVertexList = GraphBuilder.generateVertexList(n);
+        this.graphCanvas.clearGraph();
+        for (Vertex vertex : condensationVertexList) {
+            this.graphCanvas.drawCondensationVertex(vertex);
+        }
+        for (int i = 0; i < n - 1; i++) {
+            Binding binding = new Binding(condensationVertexList);
+            binding.bindSimpleVertex(condensationVertexList.get(i), condensationVertexList.get(i + 1));
+            this.graphCanvas.simpleBindVertex(binding);
         }
     }
     
