@@ -36,8 +36,8 @@ public class Binding {
         }
         
         if (v1.getPosX() < v2.getPosX() && v1.getPosY() > v2.getPosY()) {
-            kStartX = 50;
-            kStartY = 50 / 2;
+            kStartX = 50 / 2;
+            // kStartY = 50 / 2;
             kEndY = 50 / 2;
         }
         
@@ -93,11 +93,22 @@ public class Binding {
     }
     
     private boolean checkIsCross(Vertex v1, Vertex v2) {
+        if ((v1.getPosX() == v2.getPosX() + 150) || (v2.getPosX() == v1.getPosX() + 150)) {
+            return false;
+        }
         boolean result = false;
         // double medianX = (v1.getPosX() + v2.getPosX()) / 2;
         // double medianY = (v1.getPosY() + v2.getPosY()) / 2;
         for (Vertex vertex : this.vertexList) {
-            if (vertex.getPosY() == v1.getPosY() && vertex.getPosY() == v2.getPosY()) {
+            boolean isStreight = vertex.getPosY() == v1.getPosY() 
+                    && vertex.getPosY() == v2.getPosY();
+            boolean isDiagonal = ((vertex.getPosX() + 150 == v1.getPosX()
+                    && vertex.getPosX() - 150 == v2.getPosX())
+                    || (vertex.getPosX() + 150 == v2.getPosX()
+                    && vertex.getPosX() - 150 == v1.getPosX()))
+                    && ((v1.getPosY() + 400 == v2.getPosY())
+                    || (v2.getPosY() + 400 == v1.getPosY()));
+            if (isStreight || isDiagonal) {
                 result = true;
                 break;
             }
