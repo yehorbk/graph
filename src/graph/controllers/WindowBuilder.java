@@ -47,6 +47,9 @@ public class WindowBuilder {
         drawSimpleBindings();
         
         this.printMatrix(this.simpleMatrix);
+        // GraphBuilder.printVertexesDegrees(simpleMatrix);
+        GraphBuilder.printVertexesHalfDegrees(adjacencyMatrix);
+        GraphBuilder.printAllHanging(simpleMatrix);
         GraphBuilder.printAllIsolated(simpleMatrix);
     }
     
@@ -81,9 +84,9 @@ public class WindowBuilder {
     
     private void drawSimpleBindings() {
         this.drawGraph();
-        for (int i = 0; i < this.adjacencyMatrix.length; i++) {
-            for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
-                if (this.adjacencyMatrix[i][j] == 1) {
+        for (int i = 0; i < this.simpleMatrix.length; i++) {
+            for (int j = i; j < this.simpleMatrix[i].length; j++) {
+                if (this.simpleMatrix[i][j] == 1) {
                     Binding binding = new Binding(this.vertexList);
                     binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j));
                     this.graphCanvas.simpleBindVertex(binding);

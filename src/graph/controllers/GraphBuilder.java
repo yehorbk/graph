@@ -71,6 +71,49 @@ public class GraphBuilder {
         return result;
     }
     
+    public static void printVertexesDegrees(int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            int count = 0;
+            for (int j = 0; j < matrix.length; j++) {
+                if (matrix[i][j] == 1) {
+                    count +=1;
+                }
+            }
+            System.out.println("Degree of " + (int)(i + 1) + " is " + count);
+        }
+    }
+    
+    public static void printVertexesHalfDegrees(int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            int in = 0;
+            int out = 0;
+            for (int j = 0; j < matrix.length; j++) {
+                if (matrix[i][j] == 1) {
+                    out +=1;
+                }
+            }
+            for (int j = 0; j < matrix.length; j++) {
+                if (matrix[j][i] == 1) {
+                    in +=1;
+                }
+            }
+            System.out.println("Half-Degrees of " + (int)(i + 1) + " is out: " + out + " and in: " + in);
+        }
+    }
+    
+    public static void printAllHanging(int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            int count = 0;
+            for (int j = 0; j < matrix.length; j++) {
+                if (matrix[i][j] == 1) {
+                    count +=1;
+                }
+            }
+            if (count == 1) {
+                System.out.println(i + 1 + " is hanging");
+            }
+        }
+    }
     
     public static void printAllIsolated(int[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
