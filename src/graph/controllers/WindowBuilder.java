@@ -7,11 +7,18 @@ import javafx.stage.Stage;
 import graph.models.Menu;
 import graph.models.Binding;
 import graph.models.Vertex;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.stream.Collectors;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class WindowBuilder {
     
@@ -164,6 +171,34 @@ public class WindowBuilder {
         for (int item : result) {
             System.out.print(item + " ");
         }
+        this.drawBFSGraph(Arrays.stream(result).boxed().collect(Collectors.toList()));
+    }
+    
+    private void drawBFSGraph(List<Integer> res) {
+        Timer timer = new Timer();
+        
+        timer.schedule(new TimerTask() {
+            int iterator = 0;
+            @Override
+            public void run() {
+                System.out.println(iterator);
+                if (iterator == res.size() - 1) {
+                    this.cancel();
+                }
+                drawDirectedBindings();
+                for (Vertex vertex : vertexList) {
+                    Paint color = Color.BLACK;
+                    if (res.indexOf(vertex.getId()) < iterator) {
+                        color = Color.AQUAMARINE;
+                    }
+                    if (vertex.getId() == res.get(iterator)) {
+                        color = Color.RED;
+                    }
+                    graphCanvas.drawColourVertex(vertex, color);
+                }
+                iterator++;
+            }
+        }, 0, 1000);
     }
     
     private void printMatrix(int[][] matrix) {
