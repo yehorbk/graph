@@ -52,14 +52,7 @@ public class GraphBuilder {
         }
         return matrix;
     }
-    
-    /*
-    
-        T = rand(n,n) + rand(n,n);
-        A = floor((1.0 - п3*0.005 - п4*0.005 - 0.27)*T)
-    
-    */
-    
+
     public static int[][] generateSimpleMatrix(int[][] adjacencyMatrix) {
         int length = adjacencyMatrix.length;
         int[][] result = new int[length][length];

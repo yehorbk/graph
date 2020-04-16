@@ -37,7 +37,6 @@ public class Binding {
         
         if (v1.getPosX() < v2.getPosX() && v1.getPosY() > v2.getPosY()) {
             kStartX = 50 / 2;
-            // kStartY = 50 / 2;
             kEndY = 50 / 2;
         }
         
@@ -97,8 +96,6 @@ public class Binding {
             return false;
         }
         boolean result = false;
-        // double medianX = (v1.getPosX() + v2.getPosX()) / 2;
-        // double medianY = (v1.getPosY() + v2.getPosY()) / 2;
         for (Vertex vertex : this.vertexList) {
             boolean isStreight = vertex.getPosY() == v1.getPosY() 
                     && vertex.getPosY() == v2.getPosY();
