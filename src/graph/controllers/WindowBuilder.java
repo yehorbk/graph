@@ -169,11 +169,26 @@ public class WindowBuilder {
             }
         }
         int[] result = GraphBuilder.breadthFirstSearch(adjacencyList);
-        for (int item : result) {
+        /*for (int item : result) {
             System.out.print(item + " ");
-        }
+        }*/
         this.drawBFSGraph(Arrays.stream(result).boxed().collect(Collectors.toList()));
+        this.printConformityMatrix(result);
         // TreeBuilder treeBuilder = new TreeBuilder(result);
+    }
+    
+    private void printConformityMatrix(int[] resultRoute) {
+        for (int i = 0; i < resultRoute.length; i++) {
+            for (int j = 0; j < resultRoute.length; j++) {
+                if (resultRoute[i] == j) {
+                    System.out.print(1 + " ");
+                } else {
+                    System.out.print(0 + " ");
+                }
+            }
+            System.out.println("");
+        }
+        System.out.println("");
     }
     
     private void drawBFSGraph(List<Integer> res) {
