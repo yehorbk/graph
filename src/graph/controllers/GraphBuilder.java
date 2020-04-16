@@ -240,4 +240,20 @@ public class GraphBuilder {
         return -1;
     }
     
+    public static int[][] generateBFSMatrix(int[] route) {
+        int count = route.length;
+        int[][] result = new int[count][count];
+        for (int i = 0; i < count / 2; i++) {
+            int index = route[i];
+            int left = route[i * 2 + 1];
+            result[index][left] = 1;
+            if ((i * 2 + 2) == count) {
+                break;
+            }
+            int right = route[i * 2 + 2];
+            result[index][right] = 1;
+        }
+        return result;
+    }
+    
 }

@@ -100,6 +100,12 @@ public class WindowBuilder {
                 startBFSAlgorithm();
             }
         });
+        this.menu.bindShowBFSTreeButtonEvent(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                drawBFSTree();
+            }
+        });
     }
     
     private void drawScene() {
@@ -156,6 +162,16 @@ public class WindowBuilder {
     }
     
     private void startBFSAlgorithm() {
+        int[] result = GraphBuilder.breadthFirstSearch(generateAdjacencyList());
+        this.drawBFSGraph(Arrays.stream(result).boxed().collect(Collectors.toList()));
+        this.printConformityMatrix(result);
+        /*for (int item : result) {
+            System.out.print(item + " ");
+        }*/
+        // TreeBuilder treeBuilder = new TreeBuilder(result);
+    }
+    
+    private LinkedList<Integer>[] generateAdjacencyList() {
         int count = vertexList.size();
         LinkedList<Integer> adjacencyList[] = new LinkedList[count];
         for (int i = 0; i < count; i++) {
@@ -168,13 +184,7 @@ public class WindowBuilder {
                 }
             }
         }
-        int[] result = GraphBuilder.breadthFirstSearch(adjacencyList);
-        /*for (int item : result) {
-            System.out.print(item + " ");
-        }*/
-        this.drawBFSGraph(Arrays.stream(result).boxed().collect(Collectors.toList()));
-        this.printConformityMatrix(result);
-        // TreeBuilder treeBuilder = new TreeBuilder(result);
+        return adjacencyList;
     }
     
     private void printConformityMatrix(int[] resultRoute) {
@@ -221,6 +231,25 @@ public class WindowBuilder {
                 iterator++;
             }
         }, 0, 1000);
+    }
+    
+    private void drawBFSTree() {
+        int[] route = GraphBuilder.breadthFirstSearch(generateAdjacencyList());
+        int[][] bfsMatrix = GraphBuilder.generateBFSMatrix(route);
+        this.graphCanvas.clearGraph();
+        for (Vertex vertex : this.vertexList) {
+            vertex.setId(route[(vertex.getId() - 1)] + 1);
+            this.graphCanvas.drawVertex(vertex);
+        }
+        for (int i = 0; i < bfsMatrix.length; i++) {
+            for (int j = 0; j < bfsMatrix[i].length; j++) {
+                if (bfsMatrix[i][j] == 1) {
+                    Binding binding = new Binding(this.vertexList);
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j));
+                    this.graphCanvas.simpleBindVertex(binding);
+                }
+            }
+        }
     }
     
     private void printMatrix(int[][] matrix) {

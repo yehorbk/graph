@@ -10,6 +10,7 @@ public class Menu extends VBox {
     private Button showDirectedGraphButton = new Button("Directed Graph");
     private Button showCondensationGraphButton = new Button("Condensation Graph");
     private Button startBFSButton = new Button("Start BFS");
+    private Button showBFSTreeButton = new Button("BFS Tree");
 
     public Menu() {
         this.applyStyles();
@@ -17,6 +18,7 @@ public class Menu extends VBox {
         this.getChildren().add(this.showDirectedGraphButton);
         this.getChildren().add(this.showCondensationGraphButton);
         this.getChildren().add(this.startBFSButton);
+        this.getChildren().add(this.showBFSTreeButton);
     }
     
     private void applyStyles() {
@@ -25,6 +27,7 @@ public class Menu extends VBox {
         this.showDirectedGraphButton.setMaxWidth(Double.MAX_VALUE);
         this.showCondensationGraphButton.setMaxWidth(Double.MAX_VALUE);
         this.startBFSButton.setMaxWidth(Double.MAX_VALUE);
+        this.showBFSTreeButton.setMaxWidth(Double.MAX_VALUE);
     }
     
     public void bindShowSimpleGraphButtonEvent(EventHandler eventHandler) {
@@ -41,6 +44,10 @@ public class Menu extends VBox {
     
     public void bindStartBFSButtonEvent(EventHandler eventHandler) {
         this.startBFSButton.setOnMouseClicked(eventHandler);
+    }
+    
+    public void bindShowBFSTreeButtonEvent(EventHandler eventHandler) {
+        this.showBFSTreeButton.setOnMouseClicked(eventHandler);
     }
     
 }
