@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 import graph.models.Menu;
 import graph.models.Binding;
 import graph.models.Vertex;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -46,9 +48,9 @@ public class WindowBuilder {
         drawScene();
         drawSimpleBindings();
         
-        /*this.printMatrix(this.adjacencyMatrix);
-        this.printMatrix(simpleMatrix);
-        GraphBuilder.printVertexesDegrees(simpleMatrix);
+        this.printMatrix(this.adjacencyMatrix);
+        // this.printMatrix(simpleMatrix);
+        /*GraphBuilder.printVertexesDegrees(simpleMatrix);
         GraphBuilder.printVertexesHalfDegrees(adjacencyMatrix);
         GraphBuilder.printAllHanging(simpleMatrix);
         GraphBuilder.printAllIsolated(simpleMatrix);
@@ -63,8 +65,6 @@ public class WindowBuilder {
         this.printMatrix(connectednessMatrix);
         int countOfConnectedComponents = GraphBuilder.findConnectedComponets(connectednessMatrix);
         System.out.println(countOfConnectedComponents); // drawCondensationBindings*/
-        
-        
     }
     
     public void setMenuEvents() {
@@ -84,6 +84,12 @@ public class WindowBuilder {
             @Override
             public void handle(Event event) {
                 drawCondensationBindings(1);
+            }
+        });
+        this.menu.bindStartBFSButtonEvent(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                startBFSAlgorithm();
             }
         });
     }
@@ -139,6 +145,51 @@ public class WindowBuilder {
             binding.bindSimpleVertex(condensationVertexList.get(i), condensationVertexList.get(i + 1));
             this.graphCanvas.simpleBindVertex(binding);
         }
+    }
+    
+    private void startBFSAlgorithm() {
+        int count = vertexList.size();
+        LinkedList<Integer> adj[] = new LinkedList[count];
+        for (int i = 0; i < count; i++) {
+            adj[i] = new LinkedList(); 
+        }
+        for (int i = 0; i < count; i++) {
+            for (int j = i; j < count; j++) {
+                if (this.adjacencyMatrix[i][j] == 1) {
+                    adj[i].add(j); 
+                }
+            }
+        }
+        boolean visited[] = new boolean[count]; 
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+        int s;
+        while((s = this.selectVertex(visited)) != -1) {
+            visited[s] = true;
+            queue.add(s); 
+            while (!queue.isEmpty()) {
+                s = queue.poll(); 
+                System.out.print(s + " ");
+                Iterator<Integer> i = adj[s].listIterator(); 
+                while (i.hasNext()) 
+                { 
+                    int n = i.next(); 
+                    if (!visited[n]) 
+                    {
+                        visited[n] = true; 
+                        queue.add(n); 
+                    } 
+                }
+            }
+        }
+    }
+    
+    private int selectVertex(boolean[] visited) {
+        for (int i = 0; i < visited.length; i++) {
+           if (!visited[i]) {
+               return i;
+           }
+        }
+        return -1;
     }
     
     private void printMatrix(int[][] matrix) {

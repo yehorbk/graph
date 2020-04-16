@@ -46,7 +46,8 @@ public class GraphBuilder {
                 double T = rand.nextDouble() + rand.nextDouble();
                 // double value = Math.floor((1.0 - offset2 * 0.02 - offset1 * 0.005 - 0.25) * T);
                 // double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.001 - 0.3) * T);
-                double value = Math.floor((1.0 - offset2 * 0.005 - offset1 * 0.005 - 0.27) * T);
+                // double value = Math.floor((1.0 - offset2 * 0.005 - offset1 * 0.005 - 0.27) * T);
+                double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.005 - 0.15) * T);
                 matrix[i][j] = (int)value;
             }
         }
@@ -62,6 +63,9 @@ public class GraphBuilder {
                 if (item == 1) {
                     result[i][j] = item;
                     result[j][i] = item;
+                }
+                if (i == j) {
+                    result[i][j] = 0;
                 }
             }
         }
@@ -200,5 +204,7 @@ public class GraphBuilder {
         }
         return count;
     }
+    
+    // public static int findVertex 
     
 }
