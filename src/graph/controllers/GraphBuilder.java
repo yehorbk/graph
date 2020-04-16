@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import graph.models.Vertex;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class GraphBuilder {
@@ -205,6 +207,37 @@ public class GraphBuilder {
         return count;
     }
     
-    // public static int findVertex 
+    public static int[] breadthFirstSearch(LinkedList<Integer> adjacencyList[]) {
+        int[] result = new int[adjacencyList.length];
+        boolean visited[] = new boolean[adjacencyList.length]; 
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+        int activeVertex, iterator = 0;
+        while((activeVertex = selectVertex(visited)) != -1) {
+            visited[activeVertex] = true;
+            queue.add(activeVertex); 
+            while (!queue.isEmpty()) {
+                activeVertex = queue.poll();
+                result[iterator++] = activeVertex;
+                Iterator<Integer> i = adjacencyList[activeVertex].listIterator(); 
+                while (i.hasNext()) { 
+                    int n = i.next(); 
+                    if (!visited[n]) {
+                        visited[n] = true; 
+                        queue.add(n); 
+                    } 
+                }
+            }
+        }
+        return result;
+    }
+    
+    private static int selectVertex(boolean[] visited) {
+        for (int i = 0; i < visited.length; i++) {
+           if (!visited[i]) {
+               return i;
+           }
+        }
+        return -1;
+    }
     
 }

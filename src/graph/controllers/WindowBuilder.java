@@ -149,47 +149,21 @@ public class WindowBuilder {
     
     private void startBFSAlgorithm() {
         int count = vertexList.size();
-        LinkedList<Integer> adj[] = new LinkedList[count];
+        LinkedList<Integer> adjacencyList[] = new LinkedList[count];
         for (int i = 0; i < count; i++) {
-            adj[i] = new LinkedList(); 
+            adjacencyList[i] = new LinkedList(); 
         }
         for (int i = 0; i < count; i++) {
             for (int j = i; j < count; j++) {
                 if (this.adjacencyMatrix[i][j] == 1) {
-                    adj[i].add(j); 
+                    adjacencyList[i].add(j); 
                 }
             }
         }
-        boolean visited[] = new boolean[count]; 
-        LinkedList<Integer> queue = new LinkedList<Integer>();
-        int s;
-        while((s = this.selectVertex(visited)) != -1) {
-            visited[s] = true;
-            queue.add(s); 
-            while (!queue.isEmpty()) {
-                s = queue.poll(); 
-                System.out.print(s + " ");
-                Iterator<Integer> i = adj[s].listIterator(); 
-                while (i.hasNext()) 
-                { 
-                    int n = i.next(); 
-                    if (!visited[n]) 
-                    {
-                        visited[n] = true; 
-                        queue.add(n); 
-                    } 
-                }
-            }
+        int[] result = GraphBuilder.breadthFirstSearch(adjacencyList);
+        for (int item : result) {
+            System.out.print(item + " ");
         }
-    }
-    
-    private int selectVertex(boolean[] visited) {
-        for (int i = 0; i < visited.length; i++) {
-           if (!visited[i]) {
-               return i;
-           }
-        }
-        return -1;
     }
     
     private void printMatrix(int[][] matrix) {
