@@ -1,5 +1,6 @@
 package graph.controllers;
 
+import graph.controllers.TreeBuilder;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -172,18 +173,24 @@ public class WindowBuilder {
             System.out.print(item + " ");
         }
         this.drawBFSGraph(Arrays.stream(result).boxed().collect(Collectors.toList()));
+        // TreeBuilder treeBuilder = new TreeBuilder(result);
     }
     
     private void drawBFSGraph(List<Integer> res) {
         Timer timer = new Timer();
-        
         timer.schedule(new TimerTask() {
             int iterator = 0;
             @Override
             public void run() {
-                System.out.println(iterator);
                 if (iterator == res.size() - 1) {
+                    drawDirectedBindings();
+                    for (Vertex vertex : vertexList) {
+                        Color color = Color.AQUAMARINE;
+                        vertex.setId(res.get((vertex.getId() - 1)) + 1);
+                        graphCanvas.drawColourVertex(vertex, color);
+                    }
                     this.cancel();
+                    return;
                 }
                 drawDirectedBindings();
                 for (Vertex vertex : vertexList) {
