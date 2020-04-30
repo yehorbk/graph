@@ -37,6 +37,7 @@ public class WindowBuilder {
     private List<Vertex> vertexList;
     private int[][] adjacencyMatrix;
     private int[][] simpleMatrix;
+    private int[][] weightsMatrix;
     
     public WindowBuilder(Stage stage, String title) {
         this.stage = stage;
@@ -73,6 +74,9 @@ public class WindowBuilder {
         this.printMatrix(connectednessMatrix);
         int countOfConnectedComponents = GraphBuilder.findConnectedComponets(connectednessMatrix);
         System.out.println(countOfConnectedComponents); // drawCondensationBindings*/
+        
+        this.weightsMatrix = GraphBuilder.generateWeightsMatrix(identifier, count, adjacencyMatrix);
+        this.printMatrix(this.adjacencyMatrix);
     }
     
     public void setMenuEvents() {

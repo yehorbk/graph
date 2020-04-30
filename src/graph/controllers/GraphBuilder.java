@@ -1,5 +1,6 @@
 package graph.controllers;
 
+import graph.Common;
 import java.util.ArrayList;
 import java.util.List;
 import graph.models.Vertex;
@@ -49,11 +50,32 @@ public class GraphBuilder {
                 // double value = Math.floor((1.0 - offset2 * 0.02 - offset1 * 0.005 - 0.25) * T);
                 // double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.001 - 0.3) * T);
                 // double value = Math.floor((1.0 - offset2 * 0.005 - offset1 * 0.005 - 0.27) * T);
-                double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.005 - 0.15) * T);
+                // double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.005 - 0.15) * T);
+                double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.005 - 0.05) * T);
                 matrix[i][j] = (int)value;
             }
         }
         return matrix;
+    }
+    
+    public static int[][] generateWeightsMatrix(int seed, int n, int[][] adjacencyMatrix) {
+        Random rand = new Random(seed);
+        int[][] matrix = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int Wt = (int)(rand.nextDouble() * 100 * adjacencyMatrix[i][j]); // Wt = round(rand(n,n)*100 .* A)
+                int B = Wt & 1; // B = Wt & ones(n,n)
+                Wt = Common.bool2s(B & ~(Common.booleanNot(B))) + Common.bool2s(B & (Common.booleanNot(B))) * Common.tril(i, j, -1) * Wt; // Wt = (bool2s(B & ~B') + bool2s(B & B') .* tril(ones(n,n),-1)) .* Wt;
+                matrix[i][j] = Wt + Common.booleanNot(Wt); // W = Wt + Wt'
+            }
+        }
+        return matrix;
+        /*
+        Wt = round(rand(n,n)*100 .* A);
+        B = Wt & ones(n,n);
+        Wt = (bool2s(B & ~B') + bool2s(B & B') .* tril(ones(n,n),-1)) .* Wt;
+        W = Wt + Wt';
+        */
     }
 
     public static int[][] generateSimpleMatrix(int[][] adjacencyMatrix) {
