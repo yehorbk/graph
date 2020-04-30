@@ -69,13 +69,19 @@ public class GraphBuilder {
                 matrix[i][j] = Wt + Common.booleanNot(Wt); // W = Wt + Wt'
             }
         }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int item = matrix[i][j];
+                if (item > 0) {
+                    matrix[i][j] = item;
+                    matrix[j][i] = item;
+                }
+                if (i == j || item == 0) {
+                    matrix[i][j] = Integer.MAX_VALUE;
+                }
+            }
+        }
         return matrix;
-        /*
-        Wt = round(rand(n,n)*100 .* A);
-        B = Wt & ones(n,n);
-        Wt = (bool2s(B & ~B') + bool2s(B & B') .* tril(ones(n,n),-1)) .* Wt;
-        W = Wt + Wt';
-        */
     }
 
     public static int[][] generateSimpleMatrix(int[][] adjacencyMatrix) {
@@ -278,18 +284,23 @@ public class GraphBuilder {
         return result;
     }
     
-    public static int[] breadthFirstSearch(int n, int[][] weightsMatrix) {
-        final double INFINITY = Double.MAX_VALUE;
-        int currentIndex = 0;
+    public static int[][] spanningSearch(int n, int[][] weightsMatrix) {
+        final int INFINITY = Integer.MAX_VALUE;
         int amount = 0;
         int[] route = new int[n];
+        int[] indexes = new int[n];
         boolean[] visited = new boolean[n];
-        Arrays.fill(route, (int)INFINITY);
+        int[][] matrix = new int[n][n];
+        Arrays.fill(route, INFINITY);
         Arrays.fill(visited, false);
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(matrix[i], 0);
+        }
         route[0] = 0;
-        for (int i = 0; i < n; ++i) {
-            int minRoute = (int)INFINITY;
-            for (int j = 0; j < n; ++j) {
+        for (int i = 0; i < n; i++) {
+            int minRoute = INFINITY;
+            int currentIndex = 0;
+            for (int j = 0; j < n; j++) {
                 if (!visited[j] && route[j] < minRoute) {
                     minRoute = route[j];
                     currentIndex = j;
@@ -300,12 +311,21 @@ public class GraphBuilder {
             for (int j = 0; j < n; j++) {
                 route[j] = Math.min(route[j], weightsMatrix[currentIndex][j]);
             }
+            indexes[i] = currentIndex;
+        }
+        for (int i = 0; i < n - 1; i++) {
+            matrix[indexes[i]][indexes[i + 1]] = route[i + 1];
         }
         System.out.println(amount);
         for (int i = 0; i < route.length; i++) {
             System.out.print(route[i] + " ");
         }
-        return route;
+        System.out.println("");
+        for (int i = 0; i < indexes.length; i++) {
+            System.out.print(indexes[i] + " ");
+        }
+        System.out.println("");
+        return matrix;
     }
     
 }

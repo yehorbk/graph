@@ -57,7 +57,8 @@ public class WindowBuilder {
         drawScene();
         drawSimpleBindings();
         
-        this.printMatrix(this.adjacencyMatrix);
+        //this.printMatrix(this.adjacencyMatrix);
+        
         // this.printMatrix(simpleMatrix);
         /*GraphBuilder.printVertexesDegrees(simpleMatrix);
         GraphBuilder.printVertexesHalfDegrees(adjacencyMatrix);
@@ -75,9 +76,9 @@ public class WindowBuilder {
         int countOfConnectedComponents = GraphBuilder.findConnectedComponets(connectednessMatrix);
         System.out.println(countOfConnectedComponents); // drawCondensationBindings*/
         
-        this.weightsMatrix = GraphBuilder.generateWeightsMatrix(identifier, count, adjacencyMatrix);
-        this.printMatrix(this.adjacencyMatrix);
-        GraphBuilder.breadthFirstSearch(count, weightsMatrix);
+        this.weightsMatrix = GraphBuilder.generateWeightsMatrix(identifier, count, simpleMatrix);
+        //this.printMatrix(this.weightsMatrix);
+        printMatrix(GraphBuilder.spanningSearch(count, this.weightsMatrix));
     }
     
     public void setMenuEvents() {
