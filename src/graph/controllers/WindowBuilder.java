@@ -77,6 +77,7 @@ public class WindowBuilder {
         
         this.weightsMatrix = GraphBuilder.generateWeightsMatrix(identifier, count, adjacencyMatrix);
         this.printMatrix(this.adjacencyMatrix);
+        GraphBuilder.breadthFirstSearch(count, weightsMatrix);
     }
     
     public void setMenuEvents() {

@@ -278,4 +278,34 @@ public class GraphBuilder {
         return result;
     }
     
+    public static int[] breadthFirstSearch(int n, int[][] weightsMatrix) {
+        final double INFINITY = Double.MAX_VALUE;
+        int currentIndex = 0;
+        int amount = 0;
+        int[] route = new int[n];
+        boolean[] visited = new boolean[n];
+        Arrays.fill(route, (int)INFINITY);
+        Arrays.fill(visited, false);
+        route[0] = 0;
+        for (int i = 0; i < n; ++i) {
+            int minRoute = (int)INFINITY;
+            for (int j = 0; j < n; ++j) {
+                if (!visited[j] && route[j] < minRoute) {
+                    minRoute = route[j];
+                    currentIndex = j;
+                }
+            }
+            amount += minRoute;
+            visited[currentIndex] = true;
+            for (int j = 0; j < n; j++) {
+                route[j] = Math.min(route[j], weightsMatrix[currentIndex][j]);
+            }
+        }
+        System.out.println(amount);
+        for (int i = 0; i < route.length; i++) {
+            System.out.print(route[i] + " ");
+        }
+        return route;
+    }
+    
 }
