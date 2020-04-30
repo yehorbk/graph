@@ -13,13 +13,15 @@ public class Binding {
     public boolean isSelfConnected = false;
     public boolean isCrosses = false;
     
+    public String weight;
+    
     private List<Vertex> vertexList;
 
     public Binding(List<Vertex> vertexList) {
         this.vertexList = vertexList;
     }
 
-    public void bindSimpleVertex(Vertex v1, Vertex v2) {
+    public void bindSimpleVertex(Vertex v1, Vertex v2, String weight) {
         double kStartX = 0;
         double kStartY = 0;
         double kEndX = 0;
@@ -29,6 +31,8 @@ public class Binding {
         this.startY = v1.getPosY();
         this.endX = v2.getPosX();
         this.endY = v2.getPosY();
+        
+        this.weight = weight;
         
         if (v1.getPosX() > v2.getPosX() && v1.getPosY() < v2.getPosY()) {
             kStartY = 50 / 2;

@@ -54,6 +54,7 @@ public class WindowBuilder {
         this.vertexList = GraphBuilder.generateVertexList(count);
         this.adjacencyMatrix = GraphBuilder.generateAdjacencyMatrix(identifier, count);
         this.simpleMatrix = GraphBuilder.generateSimpleMatrix(this.adjacencyMatrix);
+        this.weightsMatrix = GraphBuilder.generateWeightsMatrix(identifier, count, simpleMatrix);
         drawScene();
         drawSimpleBindings();
         
@@ -76,9 +77,9 @@ public class WindowBuilder {
         int countOfConnectedComponents = GraphBuilder.findConnectedComponets(connectednessMatrix);
         System.out.println(countOfConnectedComponents); // drawCondensationBindings*/
         
-        this.weightsMatrix = GraphBuilder.generateWeightsMatrix(identifier, count, simpleMatrix);
         //this.printMatrix(this.weightsMatrix);
-        printMatrix(GraphBuilder.spanningSearch(count, this.weightsMatrix));
+        
+        GraphBuilder.generateSpanningRoute(GraphBuilder.spanningSearch(count, this.weightsMatrix));
     }
     
     public void setMenuEvents() {
@@ -115,13 +116,13 @@ public class WindowBuilder {
         this.menu.bindStartPrimeButtonEvent(new EventHandler() {
             @Override
             public void handle(Event event) {
-                // TODO
+                startPrimeAlgorithm();
             }
         });
         this.menu.bindShowSpanningTreeEvent(new EventHandler() {
             @Override
             public void handle(Event event) {
-                // TODO
+                drawSpanningTree();
             }
         });
     }
@@ -146,7 +147,7 @@ public class WindowBuilder {
             for (int j = i; j < this.simpleMatrix[i].length; j++) {
                 if (this.simpleMatrix[i][j] == 1) {
                     Binding binding = new Binding(this.vertexList);
-                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j));
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), null);
                     this.graphCanvas.simpleBindVertex(binding);
                 }
             }
@@ -159,7 +160,20 @@ public class WindowBuilder {
             for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
                 if (this.adjacencyMatrix[i][j] == 1) {
                     Binding binding = new Binding(this.vertexList);
-                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j));
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), null);
+                    this.graphCanvas.directBindVertex(binding);
+                }
+            }
+        }
+    }
+    
+    private void drawDirectedWeightBindings(int[][] weights) {
+        this.drawGraph();
+        for (int i = 0; i < this.adjacencyMatrix.length; i++) {
+            for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
+                if (this.adjacencyMatrix[i][j] == 1) {
+                    Binding binding = new Binding(this.vertexList);
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), weights[i][j] + "");
                     this.graphCanvas.directBindVertex(binding);
                 }
             }
@@ -174,7 +188,7 @@ public class WindowBuilder {
         }
         for (int i = 0; i < n - 1; i++) {
             Binding binding = new Binding(condensationVertexList);
-            binding.bindSimpleVertex(condensationVertexList.get(i), condensationVertexList.get(i + 1));
+            binding.bindSimpleVertex(condensationVertexList.get(i), condensationVertexList.get(i + 1), null);
             this.graphCanvas.simpleBindVertex(binding);
         }
     }
@@ -183,10 +197,6 @@ public class WindowBuilder {
         int[] result = GraphBuilder.breadthFirstSearch(generateAdjacencyList());
         this.drawBFSGraph(Arrays.stream(result).boxed().collect(Collectors.toList()));
         this.printConformityMatrix(result);
-        /*for (int item : result) {
-            System.out.print(item + " ");
-        }*/
-        // TreeBuilder treeBuilder = new TreeBuilder(result);
     }
     
     private LinkedList<Integer>[] generateAdjacencyList() {
@@ -263,7 +273,7 @@ public class WindowBuilder {
             for (int j = 0; j < bfsMatrix[i].length; j++) {
                 if (bfsMatrix[i][j] == 1) {
                     Binding binding = new Binding(this.vertexList);
-                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j));
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), null);
                     this.graphCanvas.simpleBindVertex(binding);
                 }
             }
@@ -271,11 +281,60 @@ public class WindowBuilder {
     }
     
     private void startPrimeAlgorithm() {
-        
+        int count = this.weightsMatrix.length;
+        int[][] primeMatrix = GraphBuilder.spanningSearch(count, this.weightsMatrix);
+        int[] primeRoute = GraphBuilder.generateSpanningRoute(primeMatrix);
+        drawPrimeGraph(Arrays.stream(primeRoute).boxed().collect(Collectors.toList()), primeMatrix);
+    }
+    
+    private void drawPrimeGraph(List<Integer> res, int[][] weights) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            int iterator = 0;
+            @Override
+            public void run() {
+                if (iterator == res.size() - 1) {
+                    drawDirectedWeightBindings(weights);
+                    for (Vertex vertex : vertexList) {
+                        Color color = Color.AQUAMARINE;
+                        vertex.setId(res.get((vertex.getId() - 1)) + 1);
+                        graphCanvas.drawColourVertex(vertex, color);
+                    }
+                    this.cancel();
+                    return;
+                }
+                drawDirectedBindings();
+                for (Vertex vertex : vertexList) {
+                    Paint color = Color.BLACK;
+                    if (res.indexOf(vertex.getId()) < iterator) {
+                        color = Color.AQUAMARINE;
+                    }
+                    if (vertex.getId() == res.get(iterator)) {
+                        color = Color.RED;
+                    }
+                    graphCanvas.drawColourVertex(vertex, color);
+                }
+                iterator++;
+            }
+        }, 0, 1000);
     }
     
     private void drawSpanningTree() {
-        
+        int count = this.weightsMatrix.length;
+        int[][] spanningMatrix = GraphBuilder.spanningSearch(count, this.weightsMatrix);
+        this.graphCanvas.clearGraph();
+        for (Vertex vertex : this.vertexList) {
+            this.graphCanvas.drawVertex(vertex);
+        }
+        for (int i = 0; i < spanningMatrix.length; i++) {
+            for (int j = 0; j < spanningMatrix[i].length; j++) {
+                if (spanningMatrix[i][j] > 0) {
+                    Binding binding = new Binding(this.vertexList);
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), spanningMatrix[i][j] + "");
+                    this.graphCanvas.simpleBindVertex(binding);
+                }
+            }
+        }
     }
     
     private void printMatrix(int[][] matrix) {

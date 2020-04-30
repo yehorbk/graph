@@ -316,16 +316,27 @@ public class GraphBuilder {
         for (int i = 0; i < n - 1; i++) {
             matrix[indexes[i]][indexes[i + 1]] = route[i + 1];
         }
-        System.out.println(amount);
-        for (int i = 0; i < route.length; i++) {
+        return matrix;
+    }
+    
+    public static int[] generateSpanningRoute(int[][] spanningWeightsMatrix) {
+        int n = spanningWeightsMatrix.length;
+        int[] route = new int[n];
+        int currentLine = 0, iterator = 0;
+        route[iterator] = 0;
+        for (int i = 0; i < n; i++) {
+            
+            if (spanningWeightsMatrix[currentLine][i] > 0) {
+                currentLine = i;
+                i = 0;
+                route[++iterator] = currentLine;
+            } 
+        }
+        
+        for (int i = 0; i < 10; i++) {
             System.out.print(route[i] + " ");
         }
-        System.out.println("");
-        for (int i = 0; i < indexes.length; i++) {
-            System.out.print(indexes[i] + " ");
-        }
-        System.out.println("");
-        return matrix;
+        return route;
     }
     
 }
