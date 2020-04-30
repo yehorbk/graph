@@ -110,6 +110,18 @@ public class WindowBuilder {
                 drawBFSTree();
             }
         });
+        this.menu.bindStartPrimeButtonEvent(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                // TODO
+            }
+        });
+        this.menu.bindShowSpanningTreeEvent(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                // TODO
+            }
+        });
     }
     
     private void drawScene() {
@@ -254,6 +266,14 @@ public class WindowBuilder {
                 }
             }
         }
+    }
+    
+    private void startPrimeAlgorithm() {
+        
+    }
+    
+    private void drawSpanningTree() {
+        
     }
     
     private void printMatrix(int[][] matrix) {

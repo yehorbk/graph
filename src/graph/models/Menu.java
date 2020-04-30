@@ -11,6 +11,8 @@ public class Menu extends VBox {
     private Button showCondensationGraphButton = new Button("Condensation Graph");
     private Button startBFSButton = new Button("Start BFS");
     private Button showBFSTreeButton = new Button("BFS Tree");
+    private Button startPrimeButton = new Button("Start Prime's Algorithm");
+    private Button showSpanningTreeButton = new Button("Show Spanning Tree");
 
     public Menu() {
         this.applyStyles();
@@ -19,6 +21,8 @@ public class Menu extends VBox {
         this.getChildren().add(this.showCondensationGraphButton);
         this.getChildren().add(this.startBFSButton);
         this.getChildren().add(this.showBFSTreeButton);
+        this.getChildren().add(this.startPrimeButton);
+        this.getChildren().add(this.showSpanningTreeButton);
     }
     
     private void applyStyles() {
@@ -28,6 +32,8 @@ public class Menu extends VBox {
         this.showCondensationGraphButton.setMaxWidth(Double.MAX_VALUE);
         this.startBFSButton.setMaxWidth(Double.MAX_VALUE);
         this.showBFSTreeButton.setMaxWidth(Double.MAX_VALUE);
+        this.startPrimeButton.setMaxWidth(Double.MAX_VALUE);
+        this.showSpanningTreeButton.setMaxWidth(Double.MAX_VALUE);
     }
     
     public void bindShowSimpleGraphButtonEvent(EventHandler eventHandler) {
@@ -48,6 +54,14 @@ public class Menu extends VBox {
     
     public void bindShowBFSTreeButtonEvent(EventHandler eventHandler) {
         this.showBFSTreeButton.setOnMouseClicked(eventHandler);
+    }
+    
+    public void bindStartPrimeButtonEvent(EventHandler eventHandler) {
+        this.startPrimeButton.setOnMouseClicked(eventHandler);
+    }
+    
+    public void bindShowSpanningTreeEvent(EventHandler eventHandler) {
+        this.showSpanningTreeButton.setOnMouseClicked(eventHandler);
     }
     
 }
