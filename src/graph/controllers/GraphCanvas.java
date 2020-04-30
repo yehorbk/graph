@@ -59,6 +59,11 @@ public class GraphCanvas extends Canvas {
             if (!binding.isCrosses) {
                 this.graphicsContext.strokeLine(binding.startX, binding.startY, 
                 binding.endX, binding.endY);
+                if (binding.weight != null) {
+                    double middleX = (binding.startX + binding.endX) / 2;
+                    double middleY = (binding.startY + binding.endY) / 2;
+                    drawWeight(binding, middleX, middleY);
+                }
             } else {
                 this.makeBypassBinding(binding);
             }
@@ -76,8 +81,9 @@ public class GraphCanvas extends Canvas {
     private void makeBypassBinding(Binding binding) {
         double middleX = (binding.startX + binding.endX) / 2;
         double differenceX = binding.startX - binding.endX;
-        double coefficient = differenceX > 0 ? 1 : -1;
-        double middleY = binding.endY + (differenceX * 0.1)
+        double differenceY = binding.startY - binding.endY;
+        double coefficient = differenceX > 0 && differenceY > 0 ? 1 : -1;
+        double middleY = binding.endY + (differenceX * 0.075)
                 + (25 * coefficient);
         this.graphicsContext.strokeLine(binding.startX, binding.startY,
                 middleX, middleY);
@@ -85,6 +91,11 @@ public class GraphCanvas extends Canvas {
         binding.startY = middleY;
         this.graphicsContext.strokeLine(binding.startX, binding.startY,
                 binding.endX, binding.endY);
+        if (binding.weight != null) {
+            double coefficientX = binding.startX / binding.endX * 10;
+            double coefficientY = binding.startY / binding.endY * 5;
+            drawWeight(binding, middleX + coefficientX, middleY - coefficientY);
+        }
     }
     
     private void drawTriangleArrow(Binding binding) {
@@ -99,6 +110,10 @@ public class GraphCanvas extends Canvas {
         double[] xPoints = { binding.endX, dx1, dx2 };
         double[] yPoints = { binding.endY, dy1, dy2 };
         this.graphicsContext.fillPolygon(xPoints, yPoints, 3);
+    }
+    
+    private void drawWeight(Binding binding, double middleX, double middleY) {
+        this.graphicsContext.strokeText(binding.weight, middleX - 15, middleY - 12);
     }
     
     private double[] getAngle(Binding binding) {

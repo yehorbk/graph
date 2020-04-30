@@ -58,7 +58,10 @@ public class WindowBuilder {
         drawScene();
         drawSimpleBindings();
         
-        //this.printMatrix(this.adjacencyMatrix);
+        
+        printMatrix(simpleMatrix);
+        printMatrix(adjacencyMatrix);
+        printMatrix(weightsMatrix);
         
         // this.printMatrix(simpleMatrix);
         /*GraphBuilder.printVertexesDegrees(simpleMatrix);
@@ -76,10 +79,6 @@ public class WindowBuilder {
         this.printMatrix(connectednessMatrix);
         int countOfConnectedComponents = GraphBuilder.findConnectedComponets(connectednessMatrix);
         System.out.println(countOfConnectedComponents); // drawCondensationBindings*/
-        
-        //this.printMatrix(this.weightsMatrix);
-        
-        GraphBuilder.generateSpanningRoute(GraphBuilder.spanningSearch(count, this.weightsMatrix));
     }
     
     public void setMenuEvents() {
@@ -284,7 +283,7 @@ public class WindowBuilder {
         int count = this.weightsMatrix.length;
         int[][] primeMatrix = GraphBuilder.spanningSearch(count, this.weightsMatrix);
         int[] primeRoute = GraphBuilder.generateSpanningRoute(primeMatrix);
-        drawPrimeGraph(Arrays.stream(primeRoute).boxed().collect(Collectors.toList()), primeMatrix);
+        drawPrimeGraph(Arrays.stream(primeRoute).boxed().collect(Collectors.toList()), this.weightsMatrix);
     }
     
     private void drawPrimeGraph(List<Integer> res, int[][] weights) {
@@ -294,10 +293,10 @@ public class WindowBuilder {
             @Override
             public void run() {
                 if (iterator == res.size() - 1) {
+                    graphCanvas.clearGraph();
                     drawDirectedWeightBindings(weights);
                     for (Vertex vertex : vertexList) {
                         Color color = Color.AQUAMARINE;
-                        vertex.setId(res.get((vertex.getId() - 1)) + 1);
                         graphCanvas.drawColourVertex(vertex, color);
                     }
                     this.cancel();
