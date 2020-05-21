@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class GraphBuilder {
-    
+
     public static List<Vertex> generateVertexList(int n) {
         List<Vertex> vertexList = new ArrayList<>();
         final int beginX = 500;
@@ -38,7 +38,7 @@ public class GraphBuilder {
         }
         return vertexList;
     }
-    
+
     public static int[][] generateAdjacencyMatrix(int seed, int n) {
         int offset1 = seed % 10;
         int offset2 = (seed / 10) % 10;
@@ -52,18 +52,18 @@ public class GraphBuilder {
                 // double value = Math.floor((1.0 - offset2 * 0.005 - offset1 * 0.005 - 0.27) * T);
                 // double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.005 - 0.15) * T);
                 double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.005 - 0.05) * T);
-                matrix[i][j] = (int)value;
+                matrix[i][j] = (int) value;
             }
         }
         return matrix;
     }
-    
+
     public static int[][] generateWeightsMatrix(int seed, int n, int[][] adjacencyMatrix) {
         Random rand = new Random(seed);
         int[][] matrix = new int[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                int Wt = (int)(rand.nextDouble() * 100 * adjacencyMatrix[i][j]); // Wt = round(rand(n,n)*100 .* A)
+                int Wt = (int) (rand.nextDouble() * 100 * adjacencyMatrix[i][j]); // Wt = round(rand(n,n)*100 .* A)
                 int B = Wt & 1; // B = Wt & ones(n,n)
                 Wt = Common.bool2s(B & ~(Common.booleanNot(B))) + Common.bool2s(B & (Common.booleanNot(B))) * Common.tril(i, j, -1) * Wt; // Wt = (bool2s(B & ~B') + bool2s(B & B') .* tril(ones(n,n),-1)) .* Wt;
                 matrix[i][j] = Wt + Common.booleanNot(Wt); // W = Wt + Wt'
@@ -101,21 +101,21 @@ public class GraphBuilder {
         }
         return result;
     }
-    
+
     public static String getVertexesDegrees(int[][] matrix) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < matrix.length; i++) {
             int count = 0;
             for (int j = 0; j < matrix.length; j++) {
                 if (matrix[i][j] == 1) {
-                    count +=1;
+                    count += 1;
                 }
             }
-            result.append("Degree of " + (int)(i + 1) + " is " + count + "\n");
+            result.append("Degree of " + (int) (i + 1) + " is " + count + "\n");
         }
         return result.toString();
     }
-    
+
     public static String getVertexesHalfDegrees(int[][] matrix) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < matrix.length; i++) {
@@ -123,26 +123,26 @@ public class GraphBuilder {
             int out = 0;
             for (int j = 0; j < matrix.length; j++) {
                 if (matrix[i][j] == 1) {
-                    out +=1;
+                    out += 1;
                 }
             }
             for (int j = 0; j < matrix.length; j++) {
                 if (matrix[j][i] == 1) {
-                    in +=1;
+                    in += 1;
                 }
             }
-            result.append("Half-Degrees of " + (int)(i + 1) + " is out: " + out + " and in: " + in + "\n");
+            result.append("Half-Degrees of " + (int) (i + 1) + " is out: " + out + " and in: " + in + "\n");
         }
         return result.toString();
     }
-    
+
     public static String getRegularGraphSpec(int[][] matrix) {
         int graphDegree = 0;
         for (int i = 0; i < matrix.length; i++) {
             int count = 0;
             for (int j = 0; j < matrix.length; j++) {
                 if (matrix[i][j] == 1) {
-                    count +=1;
+                    count += 1;
                 }
             }
             if (graphDegree == 0) {
@@ -154,14 +154,14 @@ public class GraphBuilder {
         }
         return "Yes: " + graphDegree + "\n";
     }
-    
+
     public static String getAllHanging(int[][] matrix) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < matrix.length; i++) {
             int count = 0;
             for (int j = 0; j < matrix.length; j++) {
                 if (matrix[i][j] == 1) {
-                    count +=1;
+                    count += 1;
                 }
             }
             if (count == 1) {
@@ -170,13 +170,13 @@ public class GraphBuilder {
         }
         return result.toString();
     }
-    
+
     public static String getAllIsolated(int[][] matrix) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < matrix.length; i++) {
             boolean isIsolated = true;
             for (int j = 0; j < matrix.length; j++) {
-                if (matrix[i][j] == 1 || matrix [j][i] == 1) {
+                if (matrix[i][j] == 1 || matrix[j][i] == 1) {
                     isIsolated = false;
                     break;
                 }
@@ -187,24 +187,54 @@ public class GraphBuilder {
         }
         return result.toString();
     }
-    
+
     public static int[][] multiplyMatrix(int[][] matrix1, int[][] matrix2) {
         int length = matrix1.length;
         int[][] result = new int[length][length];
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 for (int k = 0; k < length; k++) {
-                    result[i][j] += matrix1[i][k] * matrix2[k][j]; 
+                    result[i][j] += matrix1[i][k] * matrix2[k][j];
                 }
             }
         }
         return result;
     }
-    
+
     public static int[][] powMatrix(int[][] matrix) {
         return multiplyMatrix(matrix, matrix);
     }
-    
+
+    public static int[][] getRoutes(int[][] matrix) {
+        List<Integer[]> bufferList = new ArrayList<>();
+        for (int i = 0; i < matrix.length; i++) {
+            List<Integer> currentRoute = new ArrayList<>();
+            for (int j = 0; j < matrix[i].length; j++) {
+                currentRoute.add(i);
+                int currentVertex = j;
+                while (currentVertex != i) {
+                    for (int k = 0; k < matrix[currentVertex].length; k++) {
+                        if (matrix[currentVertex][k] == matrix[i][j]) {
+                            currentRoute.add(currentVertex);
+                            currentVertex = k;
+                            break;
+                        }
+                    }
+                }
+            }
+            bufferList.add(currentRoute.toArray(new Integer[currentRoute.size()]));
+        }
+        int[][] result = new int[bufferList.size()][];
+        for (int i = 0; i < bufferList.size(); i++) {
+            int[] array = new int[bufferList.get(i).length];
+            for (int j = 0; j < bufferList.get(i).length; i++) {
+                array[j] = bufferList.get(i)[j];
+            }
+            result[i] = array;
+        }
+        return result;
+    }
+
     public static int[][] findReachabilityMatrix(int[][] matrix, int n) {
         int length = matrix.length;
         int[][] result = new int[length][length];
@@ -231,12 +261,12 @@ public class GraphBuilder {
         }
         return result;
     }
-    
+
     public static int[][] findConnectednessMatrix(int[][] reachabilityMatrix) {
         int length = reachabilityMatrix.length;
         int[][] transposedMatrix = Arrays.copyOf(reachabilityMatrix, length);
         for (int i = 0; i < length; i++) {
-            for (int j = i+1; j < length; j++) {
+            for (int j = i + 1; j < length; j++) {
                 int temp = transposedMatrix[i][j];
                 transposedMatrix[i][j] = transposedMatrix[j][i];
                 transposedMatrix[j][i] = temp;
@@ -244,7 +274,7 @@ public class GraphBuilder {
         }
         return multiplyMatrix(reachabilityMatrix, transposedMatrix);
     }
-    
+
     public static int findConnectedComponets(int[][] connectednessMatrix) {
         int count = 0;
         int length = connectednessMatrix.length;
@@ -261,40 +291,40 @@ public class GraphBuilder {
         }
         return count;
     }
-    
+
     public static int[] breadthFirstSearch(LinkedList<Integer> adjacencyList[]) {
         int[] result = new int[adjacencyList.length];
-        boolean visited[] = new boolean[adjacencyList.length]; 
+        boolean visited[] = new boolean[adjacencyList.length];
         LinkedList<Integer> queue = new LinkedList<Integer>();
         int activeVertex, iterator = 0;
-        while((activeVertex = selectVertex(visited)) != -1) {
+        while ((activeVertex = selectVertex(visited)) != -1) {
             visited[activeVertex] = true;
-            queue.add(activeVertex); 
+            queue.add(activeVertex);
             while (!queue.isEmpty()) {
                 activeVertex = queue.poll();
                 result[iterator++] = activeVertex;
-                Iterator<Integer> i = adjacencyList[activeVertex].listIterator(); 
-                while (i.hasNext()) { 
-                    int n = i.next(); 
+                Iterator<Integer> i = adjacencyList[activeVertex].listIterator();
+                while (i.hasNext()) {
+                    int n = i.next();
                     if (!visited[n]) {
-                        visited[n] = true; 
-                        queue.add(n); 
-                    } 
+                        visited[n] = true;
+                        queue.add(n);
+                    }
                 }
             }
         }
         return result;
     }
-    
+
     private static int selectVertex(boolean[] visited) {
         for (int i = 0; i < visited.length; i++) {
-           if (!visited[i]) {
-               return i;
-           }
+            if (!visited[i]) {
+                return i;
+            }
         }
         return -1;
     }
-    
+
     public static int[][] generateBFSMatrix(int[] route) {
         int count = route.length;
         int[][] result = new int[count][count];
@@ -310,7 +340,7 @@ public class GraphBuilder {
         }
         return result;
     }
-    
+
     public static int[][] spanningSearch(int n, int[][] weightsMatrix) {
         final int INFINITY = Integer.MAX_VALUE;
         int amount = 0;
@@ -357,7 +387,7 @@ public class GraphBuilder {
         }*/
         return matrix;
     }
-    
+
     public static int[] generateSpanningRoute(int[][] spanningWeightsMatrix) {
         int n = spanningWeightsMatrix.length;
         int[] route = new int[n];
@@ -368,12 +398,12 @@ public class GraphBuilder {
                 currentLine = i;
                 i = 0;
                 route[++iterator] = currentLine;
-            } 
+            }
         }
         /*for (int i = 0; i < 10; i++) {
             System.out.print(route[i] + " ");
         }*/
         return route;
     }
-    
+
 }
