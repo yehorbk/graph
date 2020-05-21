@@ -54,9 +54,9 @@ public class GraphController {
         result.append(GraphBuilder.getAllHanging(simpleMatrix) + "\n");
         result.append("Усі ізольовані вершини: \n");
         result.append(GraphBuilder.getAllIsolated(simpleMatrix) + "\n");
-        result.append("Шляхи довжини 2: \n");
+        result.append("Матриця A2: \n");
         result.append(Common.matrix2string(degree2) + "\n");
-        result.append("Шляхи довжини 3: \n");
+        result.append("Матриця A3: \n");
         result.append(Common.matrix2string(degree3) + "\n");
         result.append("Матриця досяжності: \n");
         result.append(Common.matrix2string(reachabilityMatrix) + "\n");
