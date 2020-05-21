@@ -102,7 +102,8 @@ public class GraphBuilder {
         return result;
     }
     
-    public static void printVertexesDegrees(int[][] matrix) {
+    public static String getVertexesDegrees(int[][] matrix) {
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < matrix.length; i++) {
             int count = 0;
             for (int j = 0; j < matrix.length; j++) {
@@ -110,11 +111,13 @@ public class GraphBuilder {
                     count +=1;
                 }
             }
-            System.out.println("Degree of " + (int)(i + 1) + " is " + count);
+            result.append("Degree of " + (int)(i + 1) + " is " + count + "\n");
         }
+        return result.toString();
     }
     
-    public static void printVertexesHalfDegrees(int[][] matrix) {
+    public static String getVertexesHalfDegrees(int[][] matrix) {
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < matrix.length; i++) {
             int in = 0;
             int out = 0;
@@ -128,11 +131,13 @@ public class GraphBuilder {
                     in +=1;
                 }
             }
-            System.out.println("Half-Degrees of " + (int)(i + 1) + " is out: " + out + " and in: " + in);
+            result.append("Half-Degrees of " + (int)(i + 1) + " is out: " + out + " and in: " + in + "\n");
         }
+        return result.toString();
     }
     
-    public static void printAllHanging(int[][] matrix) {
+    public static String getAllHanging(int[][] matrix) {
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < matrix.length; i++) {
             int count = 0;
             for (int j = 0; j < matrix.length; j++) {
@@ -141,12 +146,14 @@ public class GraphBuilder {
                 }
             }
             if (count == 1) {
-                System.out.println(i + 1 + " is hanging");
+                result.append(i + 1 + " is hanging" + "\n");
             }
         }
+        return result.toString();
     }
     
-    public static void printAllIsolated(int[][] matrix) {
+    public static String getAllIsolated(int[][] matrix) {
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < matrix.length; i++) {
             boolean isIsolated = true;
             for (int j = 0; j < matrix.length; j++) {
@@ -156,9 +163,10 @@ public class GraphBuilder {
                 }
             }
             if (isIsolated) {
-                System.out.println(i + 1 + " is isolated" );
+                result.append(i + 1 + " is isolated" + "\n");
             }
         }
+        return result.toString();
     }
     
     public static int[][] multiplyMatrix(int[][] matrix1, int[][] matrix2) {
@@ -316,6 +324,18 @@ public class GraphBuilder {
         for (int i = 0; i < n - 1; i++) {
             matrix[indexes[i]][indexes[i + 1]] = route[i + 1];
         }
+        /*for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int item = matrix[i][j]; 
+                if (item > 0) {
+                    matrix[i][j] = item;
+                    matrix[j][i] = item;
+                }
+                if (i == j) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }*/
         return matrix;
     }
     
@@ -325,17 +345,15 @@ public class GraphBuilder {
         int currentLine = 0, iterator = 0;
         route[iterator] = 0;
         for (int i = 0; i < n; i++) {
-            
             if (spanningWeightsMatrix[currentLine][i] > 0) {
                 currentLine = i;
                 i = 0;
                 route[++iterator] = currentLine;
             } 
         }
-        
-        for (int i = 0; i < 10; i++) {
+        /*for (int i = 0; i < 10; i++) {
             System.out.print(route[i] + " ");
-        }
+        }*/
         return route;
     }
     

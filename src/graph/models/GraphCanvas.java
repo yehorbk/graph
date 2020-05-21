@@ -1,4 +1,4 @@
-package graph.controllers;
+package graph.models;
 
 import graph.models.Binding;
 import javafx.scene.canvas.Canvas;
