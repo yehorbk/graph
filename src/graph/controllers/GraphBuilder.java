@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import graph.models.Vertex;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Random;
 
 public class GraphBuilder {
@@ -205,29 +207,34 @@ public class GraphBuilder {
         return multiplyMatrix(matrix, matrix);
     }
 
-    public static int[][] getRoutes(int[][] matrix) {
+    public static int[][] getRoutes(int[][] matrix, int length) {
         List<Integer[]> bufferList = new ArrayList<>();
         for (int i = 0; i < matrix.length; i++) {
-            List<Integer> currentRoute = new ArrayList<>();
             for (int j = 0; j < matrix[i].length; j++) {
+                List<Integer> currentRoute = new ArrayList<>();
+                Map<Integer, Boolean> visited = new HashMap<>();
                 currentRoute.add(i);
+                visited.put(i, true);
+                currentRoute.add(j);
+                visited.put(j, true);
                 int currentVertex = j;
-                while (currentVertex != i) {
-                    for (int k = 0; k < matrix[currentVertex].length; k++) {
-                        if (matrix[currentVertex][k] == matrix[i][j]) {
-                            currentRoute.add(currentVertex);
+                do {
+                    for (int k = currentVertex; k < matrix[currentVertex].length; k++) {
+                        if (matrix[currentVertex][k] == matrix[i][j] && currentVertex != i) {
                             currentVertex = k;
+                            visited.put(currentVertex, true);
+                            currentRoute.add(currentVertex);
                             break;
                         }
                     }
-                }
+                } while (currentVertex != i && visited.get(currentVertex) == null);
+                bufferList.add(currentRoute.toArray(new Integer[currentRoute.size()]));
             }
-            bufferList.add(currentRoute.toArray(new Integer[currentRoute.size()]));
         }
         int[][] result = new int[bufferList.size()][];
         for (int i = 0; i < bufferList.size(); i++) {
             int[] array = new int[bufferList.get(i).length];
-            for (int j = 0; j < bufferList.get(i).length; i++) {
+            for (int j = 0; j < bufferList.get(i).length; j++) {
                 array[j] = bufferList.get(i)[j];
             }
             result[i] = array;

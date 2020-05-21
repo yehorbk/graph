@@ -58,12 +58,10 @@ public class GraphController {
         result.append(Common.matrix2string(degree2) + "\n");
         result.append("Матриця A3: \n");
         result.append(Common.matrix2string(degree3) + "\n");
-        
         result.append("Шляхи довжини 2: \n");
-        result.append(Common.matrix2string(GraphBuilder.getRoutes(degree2)) + "\n");
+        result.append(Common.matrix2string(GraphBuilder.getRoutes(degree2, 2)) + "\n");
         result.append("Шляхи довжини 3: \n");
-        result.append(Common.matrix2string(degree3) + "\n");
-        
+        result.append(Common.matrix2string(GraphBuilder.getRoutes(degree3, 3)) + "\n");
         result.append("Матриця досяжності: \n");
         result.append(Common.matrix2string(reachabilityMatrix) + "\n");
         result.append("Матриця зв'язності: \n");
