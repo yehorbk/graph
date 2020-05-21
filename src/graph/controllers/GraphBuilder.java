@@ -136,6 +136,25 @@ public class GraphBuilder {
         return result.toString();
     }
     
+    public static String getRegularGraphSpec(int[][] matrix) {
+        int graphDegree = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            int count = 0;
+            for (int j = 0; j < matrix.length; j++) {
+                if (matrix[i][j] == 1) {
+                    count +=1;
+                }
+            }
+            if (graphDegree == 0) {
+                graphDegree = count;
+            }
+            if (count != graphDegree) {
+                return "No\n";
+            }
+        }
+        return "Yes: " + graphDegree + "\n";
+    }
+    
     public static String getAllHanging(int[][] matrix) {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < matrix.length; i++) {

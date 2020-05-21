@@ -48,6 +48,8 @@ public class GraphController {
         result.append(GraphBuilder.getVertexesDegrees(simpleMatrix) + "\n");
         result.append("Напiв-степенi вершин: \n");
         result.append(GraphBuilder.getVertexesHalfDegrees(adjacencyMatrix) + "\n");
+        result.append("Граф однороднiй: \n");
+        result.append(GraphBuilder.getRegularGraphSpec(simpleMatrix) + "\n");
         result.append("Усі висячі вершини: \n");
         result.append(GraphBuilder.getAllHanging(simpleMatrix) + "\n");
         result.append("Усі ізольовані вершини: \n");
