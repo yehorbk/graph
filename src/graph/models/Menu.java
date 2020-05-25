@@ -10,8 +10,8 @@ import javafx.scene.layout.VBox;
 
 public class Menu extends VBox {
 
-    private ComboBox selectLabChoiceBox = new ComboBox(FXCollections.observableArrayList(
-            1, 2, 3, 4, 5, 6));
+    private ComboBox selectLabChoiceBox = new ComboBox(FXCollections
+            .observableArrayList(1, 2, 3, 4, 5, 6));
     private Button showSimpleGraphButton = new Button("Simple Graph");
     private Button showDirectedGraphButton = new Button("Directed Graph");
     private Button showGraphSpecs = new Button("Graph Specs");

@@ -67,8 +67,7 @@ public class GraphBuilder {
                         break;
                     case 5:
                         value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.005 - 0.05) * T);
-                        break;
-                        
+                        break;       
                 }
                 matrix[i][j] = (int) value;
             }
@@ -233,28 +232,26 @@ public class GraphBuilder {
                 List<Integer> currentRoute = new ArrayList<>();
                 Map<Integer, Boolean> visited = new HashMap<>();
                 currentRoute.add(i);
-                visited.put(i, true);
                 currentRoute.add(j);
+                visited.put(i, true);
                 visited.put(j, true);
                 int currentVertex = j;
                 do {
-                    for (int k = currentVertex; k < matrix[currentVertex].length; k++) {
-                        if (matrix[currentVertex][k] == matrix[i][j] && currentVertex != i) {
+                    for (int k = 0; k < matrix[currentVertex].length; k++) {
+                        if (matrix[currentVertex][k] == matrix[i][j] && currentVertex != i && visited.get(k) == null) {
                             currentVertex = k;
                             visited.put(currentVertex, true);
                             currentRoute.add(currentVertex);
-                            break;
+                            // break;
                         }
                     }
                 } while (currentVertex != i && visited.get(currentVertex) == null);
                 bufferList.add(currentRoute.toArray(new Integer[currentRoute.size()]));
             }
         }
-        for (int i = 0; i < bufferList.size(); i++) {
-            if (bufferList.get(i).length != length + 1) {
-                bufferList.remove(i);
-            }
-        }
+        bufferList.removeIf((t) -> {
+            return t.length != length + 1;
+        });
         int[][] result = new int[bufferList.size()][];
         for (int i = 0; i < bufferList.size(); i++) {
             int[] array = new int[bufferList.get(i).length];
