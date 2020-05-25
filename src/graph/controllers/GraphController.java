@@ -15,6 +15,9 @@ import javafx.scene.paint.Paint;
 
 public class GraphController {
     
+    private int identifier;
+    private int count;
+    
     private List<Vertex> vertexList;
     private int[][] adjacencyMatrix;
     private int[][] simpleMatrix;
@@ -23,11 +26,17 @@ public class GraphController {
     GraphCanvas graphCanvas;
 
     public GraphController(int identifier, int count, GraphCanvas graphCanvas) {
+        this.identifier = identifier;
+        this.count = count;
         this.graphCanvas = graphCanvas;
         this.vertexList = GraphBuilder.generateVertexList(count);
-        this.adjacencyMatrix = GraphBuilder.generateAdjacencyMatrix(identifier, count);
+        this.loadLab(1);
+    }
+    
+    public void loadLab(int labNumber) {
+        this.adjacencyMatrix = GraphBuilder.generateAdjacencyMatrix(this.identifier, this.count, labNumber);
         this.simpleMatrix = GraphBuilder.generateSimpleMatrix(this.adjacencyMatrix);
-        this.weightsMatrix = GraphBuilder.generateWeightsMatrix(identifier, count, simpleMatrix);
+        this.weightsMatrix = GraphBuilder.generateWeightsMatrix(this.identifier, this.count, simpleMatrix);
         drawSimpleBindings();
     }
     

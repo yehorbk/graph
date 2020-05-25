@@ -41,7 +41,7 @@ public class GraphBuilder {
         return vertexList;
     }
 
-    public static int[][] generateAdjacencyMatrix(int seed, int n) {
+    public static int[][] generateAdjacencyMatrix(int seed, int n, int lab) {
         int offset1 = seed % 10;
         int offset2 = (seed / 10) % 10;
         Random rand = new Random(seed);
@@ -49,11 +49,27 @@ public class GraphBuilder {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 double T = rand.nextDouble() + rand.nextDouble();
-                // double value = Math.floor((1.0 - offset2 * 0.02 - offset1 * 0.005 - 0.25) * T);
-                // double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.001 - 0.3) * T);
-                // double value = Math.floor((1.0 - offset2 * 0.005 - offset1 * 0.005 - 0.27) * T);
-                // double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.005 - 0.15) * T);
-                double value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.005 - 0.05) * T);
+                double value;
+                switch(lab) {
+                    case 1:
+                    case 6:
+                    default:
+                        value = Math.floor((1.0 - offset2 * 0.02 - offset1 * 0.005 - 0.25) * T);
+                        break;
+                    case 2:
+                        value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.001 - 0.3) * T);
+                        break;
+                    case 3:
+                        value = Math.floor((1.0 - offset2 * 0.005 - offset1 * 0.005 - 0.27) * T);
+                        break;
+                    case 4:
+                        value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.005 - 0.15) * T);
+                        break;
+                    case 5:
+                        value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.005 - 0.05) * T);
+                        break;
+                        
+                }
                 matrix[i][j] = (int) value;
             }
         }
@@ -208,6 +224,9 @@ public class GraphBuilder {
     }
 
     public static int[][] getRoutes(int[][] matrix, int length) {
+        for (int i = 0; i < matrix.length; i++) {
+            matrix[i][i] = 0;
+        }
         List<Integer[]> bufferList = new ArrayList<>();
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
@@ -229,6 +248,11 @@ public class GraphBuilder {
                     }
                 } while (currentVertex != i && visited.get(currentVertex) == null);
                 bufferList.add(currentRoute.toArray(new Integer[currentRoute.size()]));
+            }
+        }
+        for (int i = 0; i < bufferList.size(); i++) {
+            if (bufferList.get(i).length != length + 1) {
+                bufferList.remove(i);
             }
         }
         int[][] result = new int[bufferList.size()][];

@@ -6,6 +6,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import graph.models.Menu;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -45,6 +47,12 @@ public class WindowBuilder {
     }
 
     public void setMenuEvents() {
+        this.menu.bindSelectLabChoiceBoxEvent(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue observable, Number oldValue, Number newValue) {
+                graphController.loadLab(newValue.intValue());
+            }
+        });
         this.menu.bindShowSimpleGraphButtonEvent(new EventHandler() {
             @Override
             public void handle(Event event) {
