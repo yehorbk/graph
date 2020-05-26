@@ -5,8 +5,10 @@ import graph.models.Binding;
 import graph.models.GraphCanvas;
 import graph.models.Vertex;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Collectors;
@@ -89,11 +91,13 @@ public class GraphController {
 
     public void drawSimpleBindings() {
         this.drawGraph();
+        Map<Integer, Integer> bindingsCache = new HashMap<>();
         for (int i = 0; i < this.simpleMatrix.length; i++) {
             for (int j = i; j < this.simpleMatrix[i].length; j++) {
                 if (this.simpleMatrix[i][j] == 1) {
+                    bindingsCache.put(i, j);
                     Binding binding = new Binding(this.vertexList);
-                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), null);
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), null, bindingsCache.containsKey(j) && bindingsCache.get(j) == i);
                     this.graphCanvas.simpleBindVertex(binding);
                 }
             }
@@ -102,11 +106,13 @@ public class GraphController {
 
     public void drawDirectedBindings() {
         this.drawGraph();
+        Map<Integer, Integer> bindingsCache = new HashMap<>();
         for (int i = 0; i < this.adjacencyMatrix.length; i++) {
             for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
                 if (this.adjacencyMatrix[i][j] == 1) {
+                    bindingsCache.put(i, j);
                     Binding binding = new Binding(this.vertexList);
-                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), null);
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), null, bindingsCache.containsKey(j) && bindingsCache.get(j) == i);
                     this.graphCanvas.directBindVertex(binding);
                 }
             }
@@ -115,11 +121,13 @@ public class GraphController {
  
     public void drawDirectedWeightBindings(int[][] weights) {
         this.drawGraph();
+        Map<Integer, Integer> bindingsCache = new HashMap<>();
         for (int i = 0; i < this.adjacencyMatrix.length; i++) {
             for (int j = 0; j < this.adjacencyMatrix[i].length; j++) {
                 if (this.adjacencyMatrix[i][j] == 1) {
+                    bindingsCache.put(i, j);
                     Binding binding = new Binding(this.vertexList);
-                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), weights[i][j] + "");
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), weights[i][j] + "", bindingsCache.containsKey(j) && bindingsCache.get(j) == i);
                     this.graphCanvas.directBindVertex(binding);
                 }
             }
@@ -137,7 +145,7 @@ public class GraphController {
         }
         for (int i = 0; i < n - 1; i++) {
             Binding binding = new Binding(condensationVertexList);
-            binding.bindSimpleVertex(condensationVertexList.get(i), condensationVertexList.get(i + 1), null);
+            binding.bindSimpleVertex(condensationVertexList.get(i), condensationVertexList.get(i + 1), null, false);
             this.graphCanvas.simpleBindVertex(binding);
         }
     }
@@ -221,11 +229,13 @@ public class GraphController {
             vertex.setId(route[(vertex.getId() - 1)] + 1);
             this.graphCanvas.drawVertex(vertex);
         }
+        Map<Integer, Integer> bindingsCache = new HashMap<>();
         for (int i = 0; i < bfsMatrix.length; i++) {
             for (int j = 0; j < bfsMatrix[i].length; j++) {
                 if (bfsMatrix[i][j] == 1) {
+                    bindingsCache.put(i, j);
                     Binding binding = new Binding(this.vertexList);
-                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), null);
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), null, bindingsCache.containsKey(j) && bindingsCache.get(j) == i);
                     this.graphCanvas.simpleBindVertex(binding);
                 }
             }
@@ -283,7 +293,7 @@ public class GraphController {
             for (int j = 0; j < spanningMatrix[i].length; j++) {
                 if (spanningMatrix[i][j] > 0) {
                     Binding binding = new Binding(this.vertexList);
-                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), spanningMatrix[i][j] + "");
+                    binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), spanningMatrix[i][j] + "", false);
                     this.graphCanvas.simpleBindVertex(binding);
                 }
             }

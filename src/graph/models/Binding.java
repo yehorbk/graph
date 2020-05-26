@@ -21,7 +21,7 @@ public class Binding {
         this.vertexList = vertexList;
     }
 
-    public void bindSimpleVertex(Vertex v1, Vertex v2, String weight) {
+    public void bindSimpleVertex(Vertex v1, Vertex v2, String weight, boolean isCrosses) {
         double kStartX = 0;
         double kStartY = 0;
         double kEndX = 0;
@@ -92,7 +92,7 @@ public class Binding {
         this.startY = v1.getPosY() + kStartY;
         this.endX = v2.getPosX() + kEndX;
         this.endY = v2.getPosY() + kEndY;
-        this.isCrosses = this.checkIsCross(v1, v2);
+        this.isCrosses = isCrosses ? isCrosses : this.checkIsCross(v1, v2);
     }
     
     private boolean checkIsCross(Vertex v1, Vertex v2) {
