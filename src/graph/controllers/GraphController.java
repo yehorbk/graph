@@ -218,7 +218,7 @@ public class GraphController {
                 }
                 iterator++;
             }
-        }, 0, 1000);
+        }, 0, 3000);
     }
 
     public void drawBFSTree() {
@@ -236,7 +236,7 @@ public class GraphController {
                     bindingsCache.put(i, j);
                     Binding binding = new Binding(this.vertexList);
                     binding.bindSimpleVertex(vertexList.get(i), vertexList.get(j), null, bindingsCache.containsKey(j) && bindingsCache.get(j) == i);
-                    this.graphCanvas.simpleBindVertex(binding);
+                    this.graphCanvas.directBindVertex(binding);
                 }
             }
         }
