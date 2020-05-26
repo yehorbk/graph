@@ -84,7 +84,7 @@ public class GraphCanvas extends Canvas {
         double coefficient = differenceX > 0 && differenceY > 0 ? 1 : -1;
         coefficient *= binding.startY == binding.endY && differenceX > 0 ? 2 : 1;
         double middleX = (binding.startX + binding.endX) / 2
-                + (differenceX - differenceY) * 0.005 * coefficient
+                + (differenceX - differenceY) * 0.03 * coefficient
                 // - 25 * coefficient
                 + (differenceY + binding.startY + binding.endY) * 0.02;
         double middleY = (binding.startY + binding.endY) / 2 
