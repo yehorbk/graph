@@ -79,12 +79,20 @@ public class GraphCanvas extends Canvas {
     }
     
     private void makeBypassBinding(Binding binding) {
-        double middleX = (binding.startX + binding.endX) / 2;
         double differenceX = binding.startX - binding.endX;
         double differenceY = binding.startY - binding.endY;
         double coefficient = differenceX > 0 && differenceY > 0 ? 1 : -1;
-        double middleY = binding.endY + (differenceX * 0.075)
-                + (25 * coefficient);
+        
+        coefficient *= binding.startY == binding.endY && differenceX > 0 ? 2 : 1;
+        
+        double middleX = (binding.startX + binding.endX) / 2
+                 + (differenceX - differenceY) * 0.15 * coefficient;
+                // - 25 * coefficient
+                //+ (differenceY + binding.startY + binding.endY) * 0.005;
+        double middleY = (binding.startY + binding.endY) / 2 
+                + (differenceX - differenceY) * 0.15 * coefficient
+                - 15 * coefficient
+                + (differenceX + binding.startX + binding.endX) * 0.0005;
         this.graphicsContext.strokeLine(binding.startX, binding.startY,
                 middleX, middleY);
         binding.startX = middleX;
