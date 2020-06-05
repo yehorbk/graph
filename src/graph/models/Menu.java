@@ -20,6 +20,7 @@ public class Menu extends VBox {
     private Button showBFSTreeButton = new Button("BFS Tree");
     private Button startPrimeButton = new Button("Start Prime's Algorithm");
     private Button showSpanningTreeButton = new Button("Show Spanning Tree");
+    private Button startDijkstraButton = new Button("Start Dijkstra");
 
     public Menu() {
         this.applyStyles();
@@ -32,6 +33,7 @@ public class Menu extends VBox {
         this.getChildren().add(this.showBFSTreeButton);
         this.getChildren().add(this.startPrimeButton);
         this.getChildren().add(this.showSpanningTreeButton);
+        this.getChildren().add(this.startDijkstraButton);
     }
 
     private void applyStyles() {
@@ -46,6 +48,7 @@ public class Menu extends VBox {
         this.showBFSTreeButton.setMaxWidth(Double.MAX_VALUE);
         this.startPrimeButton.setMaxWidth(Double.MAX_VALUE);
         this.showSpanningTreeButton.setMaxWidth(Double.MAX_VALUE);
+        this.startDijkstraButton.setMaxWidth(Double.MAX_VALUE);
     }
     
     public void bindSelectLabChoiceBoxEvent(ChangeListener changeListener) {
@@ -84,6 +87,10 @@ public class Menu extends VBox {
 
     public void bindShowSpanningTreeEvent(EventHandler eventHandler) {
         this.showSpanningTreeButton.setOnMouseClicked(eventHandler);
+    }
+
+    public void bindStartDijkstraEvent(EventHandler eventHandler) {
+        this.startDijkstraButton.setOnMouseClicked(eventHandler);
     }
 
 }

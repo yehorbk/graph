@@ -101,6 +101,12 @@ public class WindowBuilder {
                 graphController.drawSpanningTree();
             }
         });
+        this.menu.bindStartDijkstraEvent(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                graphController.startDijkstraAlgorithm();
+            }
+        });
     }
 
     private void drawScene() {

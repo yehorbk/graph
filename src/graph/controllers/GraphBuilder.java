@@ -50,9 +50,8 @@ public class GraphBuilder {
             for (int j = 0; j < n; j++) {
                 double T = rand.nextDouble() + rand.nextDouble();
                 double value;
-                switch(lab) {
+                switch (lab) {
                     case 1:
-                    case 6:
                     default:
                         value = Math.floor((1.0 - offset2 * 0.02 - offset1 * 0.005 - 0.25) * T);
                         break;
@@ -66,8 +65,9 @@ public class GraphBuilder {
                         value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.005 - 0.15) * T);
                         break;
                     case 5:
+                    case 6:
                         value = Math.floor((1.0 - offset2 * 0.01 - offset1 * 0.005 - 0.05) * T);
-                        break;       
+                        break;
                 }
                 matrix[i][j] = (int) value;
             }
@@ -401,18 +401,6 @@ public class GraphBuilder {
         for (int i = 0; i < n - 1; i++) {
             matrix[indexes[i]][indexes[i + 1]] = route[i + 1];
         }
-        /*for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                int item = matrix[i][j]; 
-                if (item > 0) {
-                    matrix[i][j] = item;
-                    matrix[j][i] = item;
-                }
-                if (i == j) {
-                    matrix[i][j] = 0;
-                }
-            }
-        }*/
         return matrix;
     }
 
@@ -428,10 +416,43 @@ public class GraphBuilder {
                 route[++iterator] = currentLine;
             }
         }
-        /*for (int i = 0; i < 10; i++) {
-            System.out.print(route[i] + " ");
-        }*/
         return route;
+    }
+
+    public static int[][] dijkstraAlgorithm(int[][] graph, int sourceVertex) {
+        int vertexCount = graph.length;
+        boolean[] visitedVertex = new boolean[vertexCount];
+        int[] distance = new int[vertexCount];
+        for (int i = 0; i < vertexCount; i++) {
+            visitedVertex[i] = false;
+            distance[i] = Integer.MAX_VALUE;
+        }
+        distance[sourceVertex] = 0;
+        for (int i = 0; i < vertexCount; i++) {
+            int u = findMaxDistance(distance, visitedVertex);
+            visitedVertex[u] = true;
+            for (int v = 0; v < vertexCount; v++) {
+                if (!visitedVertex[v] && graph[u][v] != 0 && (distance[u] + graph[u][v] < distance[v])) {
+                    distance[v] = distance[u] + graph[u][v];
+                }
+            }
+        }
+        for (int i = 0; i < distance.length; i++) {
+            System.out.println(String.format("Distance from source vertex %s to vertex %s is %s", sourceVertex, i, distance[i]));
+        }
+        return null;
+    }
+
+    private static int findMaxDistance(int[] distance, boolean[] visitedVertex) {
+        int maxDistance = Integer.MIN_VALUE;
+        int maxDistanceVertex = -1;
+        for (int i = 0; i < distance.length; i++) {
+            if (!visitedVertex[i] && distance[i] > maxDistance) {
+                maxDistance = distance[i];
+                maxDistanceVertex = i;
+            }
+        }
+        return maxDistanceVertex;
     }
 
 }

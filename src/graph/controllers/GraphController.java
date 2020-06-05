@@ -299,5 +299,43 @@ public class GraphController {
             }
         }
     }
+    
+    public void startDijkstraAlgorithm() {
+        int count = this.weightsMatrix.length;
+        drawDijkstraGraph(this.weightsMatrix);
+    }
+    
+    public void drawDijkstraGraph(int[][] weights) {
+        GraphBuilder.dijkstraAlgorithm(weights, 7);
+        /*Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            int iterator = 0;
+            @Override
+            public void run() {
+                if (iterator == res.size() - 1) {
+                    graphCanvas.clearGraph();
+                    drawDirectedWeightBindings(weights);
+                    for (Vertex vertex : vertexList) {
+                        Color color = Color.AQUAMARINE;
+                        graphCanvas.drawColourVertex(vertex, color);
+                    }
+                    this.cancel();
+                    return;
+                }
+                drawDirectedBindings();
+                for (Vertex vertex : vertexList) {
+                    Paint color = Color.BLACK;
+                    if (res.indexOf(vertex.getId()) < iterator) {
+                        color = Color.AQUAMARINE;
+                    }
+                    if (vertex.getId() == res.get(iterator)) {
+                        color = Color.RED;
+                    }
+                    graphCanvas.drawColourVertex(vertex, color);
+                }
+                iterator++;
+            }
+        }, 0, 1000);*/
+    }
 
 }
